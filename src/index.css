@@ -46,7 +46,6 @@ input {
   border-left: 3px solid currentColor;
   border-right: 3px solid currentColor;
   height: 15px;
-
   position: absolute;
   bottom: 0;
   left: 0;
@@ -71,10 +70,6 @@ input {
 
 .instruction {
   margin-left: calc(var(--pad)*1);
-}
-
-.child-list {
-  
 }
 
 .child {
@@ -104,7 +99,6 @@ input {
   display: flex;
   margin-left: auto;
   color: var(--light-text-color);
-
   opacity: 0;
   transition: opacity .25s ease;
 }
@@ -140,16 +134,8 @@ input {
   color: var(--main-text-color);
 }
 
-.button.-element {
-  
-}
-
 .child__option-wrap {
   margin-left: calc(var(--pad)*1);
-}
-
-.child__option.-element {
-  
 }
 
 .child__option.-element:before,
@@ -179,7 +165,6 @@ input {
   background-color: currentColor;
 }
 
-
 .button {
   outline: 0;
 }
@@ -189,7 +174,6 @@ input {
   text-indent: -999999px;
   transform: rotate(45deg);
 }
-
 
 .button.-remove:before,
 .button.-remove:after {
@@ -205,10 +189,6 @@ input {
 .button.-remove:before {
   transform: rotate(90deg);
 }
-.button.-remove:after {
-}
-
-
 
 .drag {
   cursor: grab;
@@ -231,7 +211,6 @@ input {
   font-weight: bold;
   padding: calc(var(--pad)/2) calc(var(--pad)/1.5);
 }
-
 
 .layout {
   display: flex;
@@ -266,7 +245,6 @@ input {
   width: 40%;
   left: 10%;
 }
-
 
 .code {
   white-space: pre;

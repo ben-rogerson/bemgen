@@ -1,8 +1,10 @@
 import React from "react";
-import update from 'immutability-helper';
+
 // https://github.com/kolodny/immutability-helper
-import {SortableContainer, SortableElement, arrayMove, SortableHandle} from 'react-sortable-hoc';
+import update from 'immutability-helper';
+
 // https://github.com/clauderic/react-sortable-hoc
+import {SortableContainer, SortableElement, arrayMove, SortableHandle} from 'react-sortable-hoc';
 
 export default class extends React.Component {
 
@@ -11,8 +13,8 @@ export default class extends React.Component {
     this.state = {
       blockName: '',
       hasName: false,
-      listItems: [],
       isExport: false,
+      listItems: [],
       // hasName: true,
       // blockName: 'breadcrumbs',
     }
@@ -131,7 +133,6 @@ export default class extends React.Component {
 
 const ExportButton = ({toggleExport}) => <button onClick={() => {toggleExport()}} className="export-btn"><span className="export-btn__inner">show scss</span></button>
 
-
 const DragHandle = SortableHandle( () => <span className="drag"><span className="drag__inner">: :</span></span> )
 
 const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }) => {
@@ -152,12 +153,12 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
       </div>
 
       <div className="child__option-wrap">
-
+      
         <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')}>
           <input 
             className="button"
             type="radio" value="0"
-            onClick={e => {updateItem('typeId', parseInt(e.target.value), i);}}
+            onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i);}}
             name={'typeId'+i}
             defaultChecked={item.typeId === 0} />
         </label>
@@ -166,7 +167,7 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
           <input 
             className="button"
             type="radio" value="1"
-            onClick={e => {updateItem('typeId', parseInt(e.target.value), i)}}
+            onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
             name={'typeId'+i} />
         </label>
 
@@ -194,11 +195,11 @@ const ItemList = SortableContainer((props) => {
     <div className="child-list">
       {props.items.map( (item, index) => {
 
-        let prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
-        let childPrefix = item.typeId === 1 && index > 0 ?
+        const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
+        const childPrefix = item.typeId === 1 && index > 0 ?
         (prevItem.typeId === 0 ? '__' + prevItem.title : '--' + prevItem.title) :
         ''
-        let typeText = childPrefix + (item.typeId === 0 ? '__' : '--')
+        const typeText = childPrefix + (item.typeId === 0 ? '__' : '--')
 
         const i = index
         const elementProps = { typeText, item, updateItem, removeByKey, i }
@@ -295,9 +296,9 @@ const Exporter = ({ listItems, blockName}) => {
 
 const ExportItem = ({ item, listItems, blockName, index }) => {
 
-  let typeText = item.typeId === 0 ? '__' : '--'
-  let prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
-  let childPrefix = item.typeId === 1 && index > 0 ?
+  const typeText = item.typeId === 0 ? '__' : '--'
+  const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
+  const childPrefix = item.typeId === 1 && index > 0 ?
     (prevItem.typeId === 0 ? '__' + prevItem.title : '--' + prevItem.title) :
     ''
 
