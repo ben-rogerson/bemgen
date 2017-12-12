@@ -153,12 +153,14 @@ const ExportButton = ({toggleExport, isExport}) =>
 const DragHandle = SortableHandle( () => 
   <span className="drag"><span className="drag__inner">: :</span></span> )
 
-const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }) => {
+const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i, listItems }) => {
 
   const inputProps = {
     value: item.title,
     onChange: e => updateItem('title', e.target.value, i)
   }
+
+  const hasDrag = listItems.length > 1
 
   return (
     <div className="child">
@@ -204,7 +206,7 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
 
       </div>
 
-      <DragHandle />
+      {hasDrag && <DragHandle />}
 
     </div>
   )
@@ -227,6 +229,7 @@ const ItemList = SortableContainer((props) => {
           item,
           updateItem: props.updateItem,
           removeByKey: props.removeByKey,
+          listItems: listItems,
           i: index,
         }
 
