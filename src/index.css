@@ -8,8 +8,12 @@
   --font-large: 70px;
 }
 
-*:not(input):not(.drag) {
+*:not(input):not(button):not(.drag) {
   cursor: default;
+}
+
+input,[contenteditable=true] {
+  cursor: text !important;
 }
 
 body {
