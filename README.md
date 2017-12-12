@@ -5,7 +5,7 @@ My first project in React.
 
 ## TODO
 
-- Restrict dragging / toggling types when there's a single item
-- Add animation
+- Focus input field on load
+- Add transitions
 - Better media queries
-- Add intro
+- Add logo intro
