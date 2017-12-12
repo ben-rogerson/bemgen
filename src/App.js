@@ -1,15 +1,15 @@
-import React from "react";
+import React from "react"
 
 // https://github.com/kolodny/immutability-helper
-import update from 'immutability-helper';
+import update from 'immutability-helper'
 
 // https://github.com/clauderic/react-sortable-hoc
-import {SortableContainer, SortableElement, arrayMove, SortableHandle} from 'react-sortable-hoc';
+import {SortableContainer, SortableElement, arrayMove, SortableHandle} from 'react-sortable-hoc'
 
 export default class extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       blockName: '',
       hasName: false,
@@ -40,6 +40,8 @@ export default class extends React.Component {
   }
 
   handleKeyUp = (e) => {
+    const spaceKey = 32
+    if (e.which === spaceKey) e.target.value = e.target.value.replace(" ", "-")
     e.target.value = e.target.value.toLowerCase()
   }
 
@@ -87,54 +89,66 @@ export default class extends React.Component {
   }
 
   render() {
+
+    const elementListProps = {
+      handleKeyUp: this.handleKeyUp,
+      removeByKey: this.removeByKey,
+      listName:    this.state.blockName,
+      addListItem: this.addListItem,
+      listItems:   this.state.listItems,
+      updateItem:  this.updateItem,
+      onSortEnd:   this.onSortEnd,
+    }
+
+    const blockNamerProps = {
+      blockName:     this.state.blockName,
+      handleChange:  this.handleChange,
+      handleKeyDown: this.handleKeyDown,
+      handleKeyUp:   this.handleKeyUp,
+      addBlock:      this.addBlock,
+    }
+
     return (
       <div className="container">
 
-        { this.state.hasName && 
-          <ElementList
-            removeByKey={this.removeByKey}
-            listName={this.state.blockName}
-            addListItem={this.addListItem}
-            listItems={this.state.listItems}
-            updateItem={this.updateItem}
-            onSortEnd={this.onSortEnd}
-          />
-        }
+        { this.state.hasName && <ElementList {...elementListProps} /> }
 
         { this.state.hasName && <ExportButton isExport={this.state.isExport} toggleExport={this.toggleExport} /> }
 
         { this.state.isExport && <Exporter listItems={this.state.listItems} blockName={this.state.blockName} /> }
 
-        { !this.state.hasName && (
-          <div className="input-wrap -full">
-            <div className="input-large">
-              <input 
-                ref={(input) => {this.addBlock = input}}
-                type="text" 
-                maxLength="15"
-                placeholder="foo" 
-                value={this.state.blockName}
-                onChange={this.handleChange}
-                onKeyDown={this.handleKeyDown}
-                onKeyUp={this.handleKeyUp}
-              />
-            </div>
-            <div className="instruction">Give your block a name</div>
-          </div>
-        )
-        }
+        { !this.state.hasName && (<BlockNamer {...blockNamerProps} />) }
+        
       </div>
     )
   }
 
 }
 
+const BlockNamer = ({blockName, handleChange, handleKeyDown, handleKeyUp, addBlock}) => 
+  <div className="input-wrap -full">
+  <div className="input-large">
+    <input 
+      ref={(input) => {addBlock = input}}
+      type="text" 
+      maxLength="15"
+      placeholder="foo" 
+      value={blockName}
+      onChange={(e) => handleChange(e)}
+      onKeyDown={(e) => handleKeyDown(e)}
+      onKeyUp={(e) => handleKeyUp(e)}
+    />
+  </div>
+  <div className="instruction">Give your block a name</div>
+  </div>
+
 const ExportButton = ({toggleExport, isExport}) => 
-  <button onClick={() => {toggleExport()}} className="export-btn">
-    <span className="export-btn__inner">show {isExport ? 'setup' : 'code' }</span>
+  <button onClick={toggleExport} className="export-btn">
+    <span className="export-btn__inner"> {isExport ? 'back' : 'view export' }</span>
   </button>
 
-const DragHandle = SortableHandle( () => <span className="drag"><span className="drag__inner">: :</span></span> )
+const DragHandle = SortableHandle( () => 
+  <span className="drag"><span className="drag__inner">: :</span></span> )
 
 const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }) => {
 
@@ -152,15 +166,14 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
       </div>
 
       <div className="child__option-wrap">
-
-        
+ 
           <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')
           + (i === 0 ? ' -is-disabled' : '')}>
             <input 
               className="button"
               type="radio"
               value="0"
-              onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
+              onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
               name={'typeId'+i}
               defaultChecked={item.typeId === 0}
               disabled={i === 0}
@@ -173,7 +186,7 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
               className="button"
               type="radio"
               value="1"
-              onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
+              onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
               name={'typeId'+i} disabled={i === 0}
             />
           </label>
@@ -262,6 +275,7 @@ class ElementList extends React.Component {
                 type="text" 
                 maxLength="15"
                 placeholder="Type here"
+                onKeyUp={this.props.handleKeyUp}
                 onKeyDown={this.handleKeyDown}
               />
             </div>
@@ -309,7 +323,6 @@ const Exporter = ({ listItems, blockName }) => {
 }
 
 const ExportItem = ({ type, item, listItems, blockName, index }) => {
-
   const typeText = item.typeId === 0 ? '__' : '--'
   const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
   const childPrefix = item.typeId === 1 && index > 0 ?
@@ -324,5 +337,4 @@ const ExportItem = ({ type, item, listItems, blockName, index }) => {
       &nbsp;&nbsp;&nbsp;&nbsp;{text}<br/><br/>
     </div>
   )
-
 }
