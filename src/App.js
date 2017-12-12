@@ -15,8 +15,6 @@ export default class extends React.Component {
       hasName: false,
       isExport: false,
       listItems: [],
-      // hasName: true,
-      // blockName: 'breadcrumbs',
     }
   }
 
@@ -38,7 +36,7 @@ export default class extends React.Component {
 
   handleKeyDown = (e) => {
     const enterKey = 13
-    if (e.which === enterKey) this.addName()
+    if (e.which === enterKey && e.target.value.length > 0) this.addName()
   }
 
   handleKeyUp = (e) => {
@@ -105,7 +103,7 @@ export default class extends React.Component {
 
         { this.state.hasName && <ExportButton isExport={this.state.isExport} toggleExport={this.toggleExport} /> }
 
-        { this.state.isExport && <Exporter {...this.state} /> }
+        { this.state.isExport && <Exporter listItems={this.state.listItems} blockName={this.state.blockName} /> }
 
         { !this.state.hasName && (
           <div className="input-wrap -full">
@@ -131,7 +129,7 @@ export default class extends React.Component {
 
 }
 
-const ExportButton = ({toggleExport}) => <button onClick={() => {toggleExport()}} className="export-btn"><span className="export-btn__inner">show scss</span></button>
+const ExportButton = ({toggleExport}) => <button onClick={() => {toggleExport()}} className="export-btn"><span className="export-btn__inner">show code</span></button>
 
 const DragHandle = SortableHandle( () => <span className="drag"><span className="drag__inner">: :</span></span> )
 
@@ -139,9 +137,7 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
 
   const inputProps = {
     value: item.title,
-    onChange: e => {
-      updateItem('title', e.target.value, i)
-    }
+    onChange: e => updateItem('title', e.target.value, i)
   }
 
   return (
@@ -153,28 +149,38 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
       </div>
 
       <div className="child__option-wrap">
-      
-        <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')}>
-          <input 
-            className="button"
-            type="radio" value="0"
-            onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i);}}
-            name={'typeId'+i}
-            defaultChecked={item.typeId === 0} />
-        </label>
 
-        <label className={"child__option -modifier -type" + (item.typeId === 1 ? ' -is-checked' : '')}>
-          <input 
-            className="button"
-            type="radio" value="1"
-            onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
-            name={'typeId'+i} />
-        </label>
+        
+          <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')
+          + (i === 0 ? ' -is-disabled' : '')}>
+            <input 
+              className="button"
+              type="radio"
+              value="0"
+              onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
+              name={'typeId'+i}
+              defaultChecked={item.typeId === 0}
+              disabled={i === 0}
+            />
+          </label>
 
+          <label className={"child__option -modifier -type" + (item.typeId === 1 ? ' -is-checked' : '')
+          + (i === 0 ? ' -is-disabled' : '')}>
+            <input 
+              className="button"
+              type="radio"
+              value="1"
+              onClick={e => {updateItem('typeId', parseInt(e.target.value, 10), i)}}
+              name={'typeId'+i} disabled={i === 0}
+            />
+          </label>
+        
         <div className="child__option">
           <button 
             className="button -remove" 
-            onClick={() => removeByKey(i)}>Remove</button>
+            onClick={() => removeByKey(i)}>
+              Remove
+          </button>
         </div>
 
       </div>
@@ -187,22 +193,23 @@ const Element = SortableElement( ({ typeText, item, updateItem, removeByKey, i }
 
 const ItemList = SortableContainer((props) => {
 
-  const updateItem  = props.updateItem
-  const removeByKey = props.removeByKey
-  const listItems   = props.listItems
+  const listItems = props.listItems
 
   return (
     <div className="child-list">
-      {props.items.map( (item, index) => {
+      {listItems.map( (item, index) => {
 
-        const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
+        const prevItem = (typeof listItems[index-1] !== 'undefined') ? listItems[index-1] : []
         const childPrefix = item.typeId === 1 && index > 0 ?
-        (prevItem.typeId === 0 ? '__' + prevItem.title : '--' + prevItem.title) :
-        ''
-        const typeText = childPrefix + (item.typeId === 0 ? '__' : '--')
-
-        const i = index
-        const elementProps = { typeText, item, updateItem, removeByKey, i }
+          ((prevItem.typeId === 0 ? '__' : '--') + prevItem.title) :
+          ''
+        const elementProps = { 
+          typeText: childPrefix + (item.typeId === 0 ? '__' : '--'),
+          item,
+          updateItem: props.updateItem,
+          removeByKey: props.removeByKey,
+          i: index,
+        }
 
         return <Element key={`child-${index}`} index={index} {...elementProps} />
 
@@ -213,28 +220,14 @@ const ItemList = SortableContainer((props) => {
 
 class ElementList extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      listName: this.props.listName,
-      elementName: '',
-    };
-  }
-
   componentDidMount() {
     this.addChild.focus()
   }
 
-  handleChange = (e) => {
-    this.setState({
-      elementName: e.target.value
-    })
-  }
-
   handleKeyDown = (e) => {
     const enterKey = 13
-    if (e.which === enterKey) {
-      this.props.addListItem(this.state.elementName)
+    if (e.which === enterKey && e.target.value.length > 0) {
+      this.props.addListItem(e.target.value)
       e.target.value = ''
     }
   }
@@ -243,68 +236,89 @@ class ElementList extends React.Component {
 
   render() {
 
+    const itemListProps = { 
+      updateItem:  this.props.updateItem,
+      removeByKey: this.props.removeByKey,
+      listItems:   this.props.listItems,
+    }
+
+    const sortableConfig = { 
+      onSortEnd:     this.onSortEnd,
+      useDragHandle: true,
+      lockAxis:      "y",
+    }
+    
     return (
       <div className="layout -halves">
         
         <div className="layout__item">
           <div className="input-wrap -half">
             <div className="input-large">
-              <input 
+              <input
                 ref={(input) => {this.addChild = input}} 
                 type="text" 
                 maxLength="15"
                 placeholder="Type here"
-                value={this.elementName}
-                onChange={this.handleChange} 
                 onKeyDown={this.handleKeyDown}
               />
             </div>
-            <div className="instruction">Add an __element or --modifier</div>
+            <div className="instruction">Add an element or modifier</div>
           </div>
         </div>
         
         <div className="layout__item">
-          <h1>{this.state.listName}</h1>
-          <ItemList 
-            {...this.props} 
-            items={this.props.listItems} 
-            onSortEnd={this.onSortEnd} 
-            useDragHandle={true} 
-            lockAxis="y" />
+          <h1 className="blockname">{this.props.listName}</h1>
+          <ItemList {...itemListProps} {...sortableConfig} />
         </div>
+
       </div>
     )
   }
 
 }
 
-const Exporter = ({ listItems, blockName}) => {
+const Exporter = ({ listItems, blockName }) => {
   return (
-    <div className="code" contentEditable>
+    <div className="code">
 
-      {blockName}{' { '}<br/><br/>
+      <div className="export -scss" contentEditable spellcheck="false">
 
-      {listItems.map( (item, index) => {
-        const exportProps = { item, listItems, blockName, index }
-        return <ExportItem {...exportProps} />
-      })}
+        .{blockName}{' { '}<br/><br/>
+          {listItems.map( (item, index) => {
+            const exportProps = { item, listItems, blockName, index }
+            return <ExportItem type="scss" {...exportProps} />
+          })}
+        { '}'}
+      </div>
 
-      { '}'}
+      <div className="export -html" contentEditable spellcheck="false">
+
+        {`<div class="${blockName}">`}<br/><br/>
+          {listItems.map( (item, index) => {
+            const exportProps = { item, listItems, blockName, index }
+            return <ExportItem type="html" {...exportProps} />
+          })}
+        {'</div>'}
+      </div>
+
     </div>
   )
 }
 
-const ExportItem = ({ item, listItems, blockName, index }) => {
+const ExportItem = ({ type, item, listItems, blockName, index }) => {
 
   const typeText = item.typeId === 0 ? '__' : '--'
   const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
   const childPrefix = item.typeId === 1 && index > 0 ?
-    (prevItem.typeId === 0 ? '__' + prevItem.title : '--' + prevItem.title) :
-    ''
+    ((prevItem.typeId === 0 ? '__' : '--') + prevItem.title) : ''
 
+  const text = type === 'html' ?
+    '<div class="' + blockName + childPrefix + typeText + item.title + '"></div>' :
+    '&' + childPrefix + typeText + item.title + ' {}'
+  
   return (
     <div key={index}>
-      &nbsp;&nbsp;&nbsp;&nbsp;&{childPrefix}{typeText}{item.title + ' {}'}<br/><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;{text}<br/><br/>
     </div>
   )
 
