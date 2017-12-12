@@ -3,6 +3,13 @@
   --main-text-color: #f9ffd3;
   --light-text-color: #3366ff;
   --pad: 20px;
+  --font-small: 25px;
+  --font-medium: 35px;
+  --font-large: 70px;
+}
+
+*:not(input):not(.drag) {
+  cursor: default;
 }
 
 body {
@@ -12,7 +19,9 @@ body {
   color: var(--main-text-color);
   background-color: var(--main-bg-color);
   min-height: 100vh;
-  font-family: 'Arapey'; font-weight: normal; font-style: normal;
+  font-family: 'Arapey';
+  font-weight: normal;
+  font-style: normal;
 }
 
 input {
@@ -25,7 +34,8 @@ input {
   position: relative;
   width: 100%;
   font-size: inherit;
-  font-family: inherit;font-weight: normal;
+  font-family: inherit;
+  font-weight: normal;
 }
 
 #root,
@@ -35,7 +45,7 @@ input {
 
 .input-large {
   position: relative;
-  font-size: 70px;
+  font-size: var(--font-large);
   padding: 0 var(--pad) calc(var(--pad)*1) var(--pad);
   margin-bottom: calc(var(--pad)*1);
 }
@@ -70,11 +80,11 @@ input {
 
 .blockname {
   font-weight: normal;
-  font-size: 20px;
+  font-size: var(--font-small);
 }
 
 .instruction {
-  font-size: 20px;
+  font-size: var(--font-small);
   margin-left: calc(var(--pad)*1);
 }
 
@@ -92,13 +102,13 @@ input {
 }
 
 .child__type {
-  font-size: 35px;
+  font-size: var(--font-medium);
   white-space: nowrap;
   color: var(--light-text-color);
 }
 
 .child__input {
-  font-size: 35px;
+  font-size: var(--font-medium);
 }
 
 .child__option-wrap {
@@ -203,7 +213,7 @@ input {
 }
 
 .drag {
-  cursor: grab;
+  display: block;
   color: var(--light-text-color);
   position: absolute;
   left: -40px;
@@ -220,6 +230,8 @@ input {
 }
 
 .drag__inner {
+  display: block;
+  cursor: grab !important;
   font-weight: bold;
   padding: calc(var(--pad)/2) calc(var(--pad)/1.5);
 }
@@ -246,6 +258,9 @@ input {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .input-wrap.-full {
@@ -271,7 +286,7 @@ input {
   justify-content: center;
   flex-direction: row;
   align-items: center;
-  font-size: 20px;
+  font-size: var(--font-small);
   outline: 0;
 }
 
@@ -291,9 +306,9 @@ input {
   z-index: 1;
   background-color: transparent;
   border: 0;
-  padding: 20px;
+  padding: var(--pad);
   color: #FFF;
-  font-size: 20px;
+  font-size:var(--font-small);
   font-family: inherit;
   outline: 0;
   cursor: pointer;
