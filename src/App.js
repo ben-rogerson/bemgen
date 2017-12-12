@@ -129,7 +129,10 @@ export default class extends React.Component {
 
 }
 
-const ExportButton = ({toggleExport}) => <button onClick={() => {toggleExport()}} className="export-btn"><span className="export-btn__inner">show code</span></button>
+const ExportButton = ({toggleExport, isExport}) => 
+  <button onClick={() => {toggleExport()}} className="export-btn">
+    <span className="export-btn__inner">show {isExport ? 'setup' : 'code' }</span>
+  </button>
 
 const DragHandle = SortableHandle( () => <span className="drag"><span className="drag__inner">: :</span></span> )
 
