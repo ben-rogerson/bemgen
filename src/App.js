@@ -68,6 +68,9 @@ export default class extends React.Component {
   }
 
   onSortEnd = (oldIndex, newIndex) => {
+    // Convert first item to an element
+    if (newIndex === 0) this.updateItem('typeId', 0, oldIndex)
+    // Update ordering
     this.setState({
       listItems: arrayMove(this.state.listItems, oldIndex, newIndex),
     })
