@@ -1,19 +1,31 @@
 :root {
   --main-bg-color: #023399;
+  --main-bg-lighter-color: #274dbd;
   --main-text-color: #f9ffd3;
   --light-text-color: #3366ff;
   --pad: 20px;
-  --font-small: 25px;
-  --font-medium: 35px;
+  --font-small: 23px;
+  --font-small-letterspacing: .035em;
+  --font-medium: 40px;
   --font-large: 70px;
+  --font-large-letterspacing: -.005em;
+  --arrowhead-size: 10px;
 }
 
-*:not(input):not(button):not(.drag) {
-  cursor: default;
+::selection {
+  background-color: var(--light-text-color);
+  color: white;
 }
 
-input,[contenteditable=true] {
-  cursor: text !important;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+input, [contenteditable=true] {
+  cursor: text;
 }
 
 body {
@@ -26,6 +38,7 @@ body {
   font-family: 'Arapey';
   font-weight: normal;
   font-style: normal;
+  background: linear-gradient(45deg, var(--main-bg-color), var(--main-bg-lighter-color));
 }
 
 input {
@@ -40,6 +53,7 @@ input {
   font-size: inherit;
   font-family: inherit;
   font-weight: normal;
+  letter-spacing: inherit;
 }
 
 #root,
@@ -47,26 +61,21 @@ input {
   min-height: inherit;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .input-large {
   position: relative;
   font-size: var(--font-large);
-  padding: 0 var(--pad) calc(var(--pad)*1) var(--pad);
-  margin-bottom: calc(var(--pad)*1);
+  letter-spacing: var(--font-large-letterspacing);
+  padding-bottom: calc(var(--pad)*1.5);
+  margin-bottom: calc(var(--pad)*1.5);
 }
 
-.input-large:before {
-  content: '';
-  display:block;
-  border-left: 3px solid currentColor;
-  border-right: 3px solid currentColor;
-  height: 15px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  transform: translateY(45%);
-}
-
+/* The line underneath the input */
 .input-large:after {
   content: '';
   display:block;
@@ -78,6 +87,33 @@ input {
   right: 0;
 }
 
+/* The arrow butt at the start of the line */
+.input-large:before {
+  content: '';
+  display:block;
+  border-left: 3px solid currentColor;
+  height: 15px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(45%);
+}
+
+/* The arrow at the right of the line */
+.input-wrap:after {
+  display:block;
+  width: var(--arrowhead-size);
+  height: var(--arrowhead-size);
+  border-right: 3px solid currentColor;
+  border-top: 3px solid currentColor;
+  transform: translateY(50%) rotate(45deg);
+  content: '';
+  bottom: calc(var(--pad)*2.78);
+  right: 0;
+  position: absolute;
+}
+
 ::placeholder {
   color: var(--light-text-color);
 }
@@ -85,19 +121,73 @@ input {
 .blockname {
   font-weight: normal;
   font-size: var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
 }
 
 .instruction {
   font-size: var(--font-small);
-  margin-left: calc(var(--pad)*1);
+  letter-spacing: var(--font-small-letterspacing);
+}
+.instruction--light {
+  color: var(--light-text-color);
+}
+
+.logo {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+
+.logo__img {
+  width: 140px;
+  height: 33px;
+  display: block;
+}
+
+.github {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 15px;
+  z-index: 2;
+}
+
+.github__img {
+  width: 34px;
+  height: 33px;
+  display: block;
 }
 
 .child {
   display: flex;
   align-items: center;
-  padding-top: calc(var(--pad)*.25);
-  padding-bottom: calc(var(--pad)*.25);
+  padding-top: calc(var(--pad)*.35);
+  padding-bottom: calc(var(--pad)*.35);
+  padding-left: calc(var(--pad)*.8);
+  margin-left: calc(var(--pad)*-.8);
   position: relative;
+}
+
+.child:after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 0;
+  bottom: -3px;
+  right: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--main-bg-lighter-color), rgba(39, 77, 189, 0));
+  visibility: hidden;
+  border-radius: 6px 0 0 6px;
+}
+
+.child:hover:after {
+  opacity: 1;
+  visibility: visible
+}
+
+.child-list {
+  margin-top: calc(var(--pad)*1);
 }
 
 .child__title {
@@ -115,15 +205,23 @@ input {
   font-size: var(--font-medium);
 }
 
+.child__input input {
+  padding-right: calc(var(--pad)*2);
+}
+
 .child__option-wrap {
   display: flex;
-  margin-left: auto;
   color: var(--light-text-color);
+  visibility: hidden;
+  margin-left: calc(var(--pad)*1);
+  transition: transform .25s ease-out .2s, opacity .25s ease-out .2s;
+  transform: translateX(-10px);
   opacity: 0;
-  transition: opacity .25s ease;
 }
 
 .child:hover .child__option-wrap {
+  visibility: visible;
+  transform: translateX(0);
   opacity: 1;
 }
 
@@ -135,7 +233,7 @@ input {
 }
 
 .child__option + .child__option {
-  margin-left: calc(var(--pad)*.5);
+  margin-left: calc(var(--pad)*.6);
 }
 
 .button {
@@ -144,8 +242,8 @@ input {
   appearance: none;
   -webkit-appearance: none;
   border: 2px solid currentColor;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -160,18 +258,14 @@ input {
   color: var(--main-text-color);
 }
 
-.child__option-wrap {
-  margin-left: calc(var(--pad)*1);
-}
-
 .child__option.-element:before,
 .child__option.-modifier:before {
-  margin-left: -5px;
+  margin-left: -4px;
 }
 
 .child__option.-element:after,
 .child__option.-modifier:after {
-  margin-left: 5px;
+  margin-left: 4px;
 }
 
 .child__option.-element:before,
@@ -186,7 +280,7 @@ input {
   content: '';
   display: block;
   height: 2px;
-  width: 6px;
+  width: 5px;
   position: absolute;
   background-color: currentColor;
 }
@@ -210,7 +304,8 @@ input {
   position: absolute;
   background-color: currentColor;
   transform-origin: center;
-  top: 47%;
+  top: 45%;
+  left: 25%;
 }
 .button.-remove:before {
   transform: rotate(90deg);
@@ -229,58 +324,60 @@ input {
   opacity: 1;
 }
 
-.drag:active {
+.child {
+  cursor: grab;
+}
+
+.child.child--is-dragging {
   cursor: grabbing;
 }
 
-.drag__inner {
-  display: block;
-  cursor: grab !important;
-  font-weight: bold;
-  padding: calc(var(--pad)/2) calc(var(--pad)/1.5);
-}
-
 .layout {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   min-height: inherit;
-  position: relative;
-}
-
-.layout.-halves > .layout__item {
-  width: 50%;
-}
-.layout__item:first-child {
-  margin: 10% 7% 10% 10%;
-}
-.layout__item:last-child {
-  margin: 5% 10% 5% 7%;
+  padding: 10%;
 }
 
 .input-wrap {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 100%;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.input-wrap.-full {
-  left: 20%;
-  right: 20%;
+@media(max-width: 1000px) {
+  .layout__item + .layout__item {
+    margin-top: calc(var(--pad)*3)
+  }
 }
 
-.input-wrap.-half {
-  width: 40%;
-  left: 10%;
+@media(min-width: 1000px) {
+
+  .layout {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-column-gap: 10%;
+    align-items: center;
+    width: 100%;
+  }
+
+  .input-wrap {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .input-wrap.-half {
+    width: 40%;
+    left: 10%;
+  }
+
 }
 
-.code {
-  white-space: pre;
-  padding: 10%;
-  background-color: var(--main-bg-color);
+.layout--halves > .layout__item {
+  height: inherit;
+}
+
+.exporter {
   position: fixed;
   top: 0;
   left: 0%;
@@ -290,13 +387,18 @@ input {
   justify-content: center;
   flex-direction: row;
   align-items: center;
+  background-color: var(--main-bg-color);
+}
+
+.code {
+  white-space: pre;
   font-size: var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
   outline: 0;
 }
 
 .code > div {
   width: 50%;
-  padding: 40px;
   outline: 0;
 }
 
@@ -305,21 +407,24 @@ input {
   border-radius: 0;
   width: 100vh;
   right: 0;
-  transform: rotate(90deg);
-  transform-origin: top right;
+  bottom: 0;
+  transform: rotate(90deg) translateY(100%);
+  transform-origin: bottom right;
   z-index: 1;
   background-color: transparent;
   border: 0;
   padding: var(--pad);
   color: #FFF;
   font-size:var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
   font-family: inherit;
   outline: 0;
   cursor: pointer;
+  transition: background-color .25s ease;
 }
 
 .export-btn:hover {
-  background-color: var(--light-text-color);
+  background-color: var(--main-bg-color);
 }
 
 @font-face {
