@@ -19,6 +19,12 @@ export default class extends React.Component {
 
     super(props)
 
+    // Start GA tracking
+    ReactGA.initialize('UA-111321688-1', {
+      debug: process.env.NODE_ENV === 'development',
+      titleCase: false,
+    })
+
     const nameExample = randomItem([
       'breadcrumbs',
       'header',
@@ -46,13 +52,19 @@ export default class extends React.Component {
       // blockName: 'breadcrumbs',
       // hasName: true,
     }
-
   }
 
   toggleExport = () => {
     this.setState({
       isExport: !this.state.isExport
     })
+    if (!this.state.isExport) {
+      ReactGA.event({
+        category: 'Exporting',
+        action: 'Toggled Export',
+        label: !this.state.isExport
+      })
+    }
   }
 
   componentDidMount() {
@@ -69,6 +81,11 @@ export default class extends React.Component {
       hasName: true,
       blockName: e.target.value
     })
+    ReactGA.event({
+      category: 'Editing',
+      action: 'Added a Block Name',
+      label: e.target.value
+    })
   }
 
   addListItem = (item) => {
@@ -80,12 +97,17 @@ export default class extends React.Component {
     this.setState({
       listItems: this.state.listItems.concat(objs)
     })
+    ReactGA.event({
+      category: 'Editing',
+      action: 'Added a List Item',
+      label: item
+    })
   }
 
   removeByKey = (itemKey) => {
     const array = this.state.listItems
-    const stuff = array.filter((item, index) => index !== itemKey)
-    if (stuff) this.setState({listItems: stuff})
+    const listItems = array.filter((item, index) => index !== itemKey)
+    if (listItems) this.setState({listItems: listItems})
   }
 
   onSortStart = (index) => {
