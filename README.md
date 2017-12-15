@@ -1,6 +1,7 @@
 ## BEM GEN
 
 BEM GEN makes HTML & CSS templates from a list of elements.
+[View the demo](https://bemgen.benrogerson.com.au)
 
 ## Tech notes
 
