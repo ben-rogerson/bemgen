@@ -13,18 +13,19 @@ BEM GEN makes HTML & CSS templates from a list of elements.
 - Sortable elements via 'react-sortable-hoc'
 - Autosizing inputs via 'react-input-autosize'
 
-###CSS
+*CSS*
 
 - No CSS reset
 - Vanilla CSS
 - CSS variables
 - Grid layout
 
-## TODO
+*TODO*
 
+- [ ] Fix modifier display in output
+- [ ] Colourise the html
 - [ ] Focus input field on load
 - [ ] Add transitions
 - [ ] Split out JS imports
 - [ ] Make bem title editable
-- [ ] Fix modifier display in HTML output
 - [ ] Make draggable fire earlier so I can style grabberhand
