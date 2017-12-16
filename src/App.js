@@ -23,6 +23,8 @@ export default class extends React.Component {
       titleCase: false,
     })
 
+    ReactGA.pageview('/');
+
     const nameExample = randomItem([
       'breadcrumbs',
       'header',
