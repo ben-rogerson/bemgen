@@ -61,5 +61,5 @@ const ScssItem = ({prefix, classText, isModifier, isNextItemModifier}) =>
     {spacing}{light('&' + prefix)}{classText + ' '}
     {!isNextItemModifier && <span>{light('{}')}{breaking}</span>}
 
-    {isModifier && <span>{spacing}{light('{')}{breaking}</span>}
+    {isModifier && <span>{spacing}{light('}')}{breaking}</span>}
   </span>
