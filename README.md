@@ -25,6 +25,7 @@ Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 - [x] Colourise the html
 - [x] Split out JS imports
 - [x] Fix modifier display in output
+- [ ] One click copy on code blocks
 - [ ] Support two modifiers in a row
 - [ ] Focus input field on load
 - [ ] Add transitions
