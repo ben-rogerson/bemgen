@@ -22,8 +22,7 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
 
       <div className="child__option-wrap">
 
-          <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')
-          + (i === 0 ? ' -is-disabled' : '')}>
+          <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')}>
             <input
               className="button"
               type="radio"
@@ -31,18 +30,16 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
               onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
               name={'typeId'+i}
               defaultChecked={item.typeId === 0}
-              disabled={i === 0}
             />
           </label>
 
-          <label className={"child__option -modifier -type" + (item.typeId === 1 ? ' -is-checked' : '')
-          + (i === 0 ? ' -is-disabled' : '')}>
+          <label className={"child__option -modifier -type" + (item.typeId === 1 ? ' -is-checked' : '')}>
             <input
               className="button"
               type="radio"
               value="1"
               onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
-              name={'typeId'+i} disabled={i === 0}
+              name={'typeId'+i}
             />
           </label>
 

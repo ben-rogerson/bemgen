@@ -8,7 +8,7 @@ const ExportItem = ({ type, item, listItems, blockName, index }) => {
   const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
   const nextItem = typeof listItems[index+1] !== 'undefined' ? listItems[index+1] : []
   const isNextItemModifier = nextItem.typeId === 1 || false
-console.log(isNextItemModifier)
+
   const prefixHtml = blockName +
     (item.typeId === 1 && index > 0 ?
       (bemChildTypePrefix(prevItem.typeId) + prevItem.title)
@@ -22,7 +22,8 @@ console.log(isNextItemModifier)
     prefix: type === 'html' ? prefixHtml : prefixScss,
     classText: item.title,
     isModifier: item.typeId == 1,
-    isNextItemModifier: isNextItemModifier
+    isNextItemModifier: isNextItemModifier,
+    index: index,
   }
 
   return (
@@ -39,10 +40,13 @@ export default ExportItem
 const spacing = <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 const breaking = <span><br/><br/></span>
 
-const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier}) =>
+const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
   <span>
     {isModifier &&
-      <span>{' '}{light(prefix)}{classText}{light('"></div>')}{breaking}</span>
+      <span>{' '}{light(prefix)}{classText}
+      {index === 0 && <span>{light('">')}</span>}
+      {index != 0 && <span>{light('"></div>')}</span>}
+      {breaking}</span>
     }
 
     {!isModifier &&
@@ -54,12 +58,12 @@ const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier}) =>
     }
   </span>
 
-const ScssItem = ({prefix, classText, isModifier, isNextItemModifier}) =>
+const ScssItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
   <span>
-    {isModifier && <span>{light('{')}{breaking}{spacing}</span>}
+    {isModifier && index != 0 && <span>{light('{')}{breaking}{spacing}</span>}
 
     {spacing}{light('&' + prefix)}{classText + ' '}
     {!isNextItemModifier && <span>{light('{}')}{breaking}</span>}
 
-    {isModifier && <span>{spacing}{light('}')}{breaking}</span>}
+    {isModifier && index != 0 && <span>{spacing}{light('}')}{breaking}</span>}
   </span>

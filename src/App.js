@@ -49,8 +49,8 @@ export default class extends React.Component {
       exampleName: nameExample,
       exampleChild: childExample,
 
-      // blockName: 'breadcrumbs',
-      // hasName: true,
+      blockName: 'breadcrumbs',
+      hasName: true,
     }
   }
 
@@ -58,11 +58,10 @@ export default class extends React.Component {
     this.setState({
       isExport: !this.state.isExport
     })
-    if (!this.state.isExport) {
+    if (this.state.isExport) {
       ReactGA.event({
         category: 'Exporting',
-        action: 'Toggled Export',
-        label: !this.state.isExport
+        action: 'Saw the Code',
       })
     }
   }
@@ -117,9 +116,6 @@ export default class extends React.Component {
 
   onSortEnd = (oldIndex, newIndex) => {
     this.updateItem('isDragging', false, oldIndex)
-    // Don't allow modifiers to modify upon the block
-    if (newIndex === 0) this.updateItem('typeId', 0, oldIndex)
-
     this.setState({
       listItems: arrayMove(this.state.listItems, oldIndex, newIndex),
     })

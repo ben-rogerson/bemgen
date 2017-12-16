@@ -3,6 +3,9 @@ import ExportItem from './ExportItem'
 import { light } from './../utilities/utilities'
 
 const Exporter = ({ listItems, blockName }) => {
+
+  const showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true
+
   return (
     <div class="exporter">
       <div class="layout -halves">
@@ -11,7 +14,9 @@ const Exporter = ({ listItems, blockName }) => {
 
           <div className="code -html" contentEditable spellcheck="false">
 
-            {light('<div class="')}{blockName}{light('">')}<br/><br/>
+            {light('<div class="')}{blockName}
+
+            {showEndBlock && <span>{light('">')}<br/><br/></span>}
 
             {listItems.map( (item, index) => {
               const exportProps = { item, listItems, blockName, index }
@@ -46,12 +51,3 @@ const Exporter = ({ listItems, blockName }) => {
 }
 
 export default Exporter
-
-
-const HtmlItem = ({classText}) =>
-  <div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <span className="code__light">{'<div class="'}</span>
-    <span>{ classText }</span>
-    <span className="code__light">{'">'}</span><br/><br/>
-  </div>
