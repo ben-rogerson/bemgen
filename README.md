@@ -1,7 +1,7 @@
 ## BEM GEN
 
-BEM GEN makes HTML & CSS templates from a list of elements.
-[Let's make some templates >](https://bemgen.benrogerson.com.au)
+Quickly generate your HTML & SCSS in BEM syntax from a list of items.
+[Give it a whirl >](https://bemgen.benrogerson.com.au)
 
 ## Tech notes
 
@@ -20,7 +20,7 @@ BEM GEN makes HTML & CSS templates from a list of elements.
 - CSS variables
 - Grid layout
 
-*TODO*
+## TODO
 
 - [x] Colourise the html
 - [x] Split out JS imports
