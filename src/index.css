@@ -100,8 +100,12 @@ input {
   transform: translateY(45%);
 }
 
+.input-large--has-ends:before {
+  border-right: 3px solid currentColor;
+}
+
 /* The arrow at the right of the line */
-.input-wrap:after {
+.input-wrap--has-arrow:after {
   display:block;
   width: var(--arrowhead-size);
   height: var(--arrowhead-size);
@@ -109,7 +113,7 @@ input {
   border-top: 3px solid currentColor;
   transform: translateY(50%) rotate(45deg);
   content: '';
-  bottom: calc(var(--pad)*2.78);
+  top: calc(var(--pad)*4.65);/* TODO: Better alignment here */
   right: 0;
   position: absolute;
 }
@@ -178,7 +182,8 @@ input {
   z-index: -1;
   background: linear-gradient(90deg, var(--main-bg-lighter-color), rgba(39, 77, 189, 0));
   visibility: hidden;
-  border-radius: 6px 0 0 6px;
+  border-radius: 1px 0 0 1px;
+  box-shadow: -5px 5px 30px rgba(0,0,0,.01);
 }
 
 .child:hover:after {
@@ -206,7 +211,11 @@ input {
 }
 
 .child__input input {
-  padding-right: calc(var(--pad)*2);
+  padding-right: calc(var(--pad)*1);
+}
+
+.child:hover .child__input input:hover {
+  box-shadow: 0 0 0 2px #3459c7;
 }
 
 .child__option-wrap {
@@ -246,6 +255,12 @@ input {
   height: 26px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.child__option:not(.-is-disabled):hover,
+.child__option:not(.-is-disabled):hover:before,
+.child__option:not(.-is-disabled):hover:after {
+  color: #FFF;
 }
 .button:disabled {
   cursor: not-allowed;
@@ -342,6 +357,7 @@ input {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
 
 @media(max-width: 1000px) {
@@ -366,7 +382,7 @@ input {
     transform: translateY(-50%);
   }
 
-  .input-wrap.-half {
+  .input-wrap--half {
     width: 40%;
     left: 10%;
   }

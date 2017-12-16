@@ -4,8 +4,8 @@ import ExportItem from './ExportItem'
 const Exporter = ({ listItems, blockName }) => {
   return (
     <div class="exporter">
-      <div class="layout  -halves">
-        
+      <div class="layout -halves">
+
         <div class="layout__item">
 
           <div className="code -html" contentEditable spellcheck="false">
@@ -21,7 +21,7 @@ const Exporter = ({ listItems, blockName }) => {
         </div>
 
         <div class="layout__item">
-        
+
           <div className="code -scss" contentEditable spellcheck="false">
 
             .{blockName}{' { '}<br/><br/>

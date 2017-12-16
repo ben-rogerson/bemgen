@@ -3,7 +3,7 @@ import { applyNamingRules } from './../utilities/utilities'
 
 const BlockNamer = ({blockName, handleChange, handleKeyDown, addBlock, exampleName}) =>
   <div className="input-wrap -full">
-    <div className="input-large">
+    <div className="input-large input-large--has-ends">
       <input
         ref={(input) => {addBlock = input}}
         type="text"

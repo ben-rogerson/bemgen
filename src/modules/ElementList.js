@@ -33,7 +33,7 @@ export default class ElementList extends React.Component {
       <div className="layout layout--halves">
 
         <div className="layout__item">
-          <div className="input-wrap -half">
+          <div className="input-wrap input-wrap--half input-wrap--has-arrow">
             <div className="input-large">
               <input
                 ref={(input) => {this.addChild = input}}
