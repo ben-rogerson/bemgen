@@ -1,5 +1,6 @@
 import React from 'react'
 import ExportItem from './ExportItem'
+import { light } from './../utilities/utilities'
 
 const Exporter = ({ listItems, blockName }) => {
   return (
@@ -10,12 +11,14 @@ const Exporter = ({ listItems, blockName }) => {
 
           <div className="code -html" contentEditable spellcheck="false">
 
-            {`<div class="${blockName}">`}<br/><br/>
-              {listItems.map( (item, index) => {
-                const exportProps = { item, listItems, blockName, index }
-                return <ExportItem type="html" {...exportProps} />
-              })}
-            {'</div>'}
+            {light('<div class="')}{blockName}{light('">')}<br/><br/>
+
+            {listItems.map( (item, index) => {
+              const exportProps = { item, listItems, blockName, index }
+              return <ExportItem type="html" {...exportProps} />
+            })}
+
+            {light('</div>')}
 
           </div>
         </div>
@@ -24,12 +27,15 @@ const Exporter = ({ listItems, blockName }) => {
 
           <div className="code -scss" contentEditable spellcheck="false">
 
-            .{blockName}{' { '}<br/><br/>
-              {listItems.map( (item, index) => {
-                const exportProps = { item, listItems, blockName, index }
-                return <ExportItem type="scss" {...exportProps} />
-              })}
-            { '}'}
+            {light('.')}{blockName}{light(' {')}<br/><br/>
+
+            {listItems.map( (item, index) => {
+              const exportProps = { item, listItems, blockName, index }
+              return <ExportItem type="scss" {...exportProps} />
+            })}
+
+            {light('}')}
+
           </div>
 
         </div>
@@ -40,3 +46,12 @@ const Exporter = ({ listItems, blockName }) => {
 }
 
 export default Exporter
+
+
+const HtmlItem = ({classText}) =>
+  <div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span className="code__light">{'<div class="'}</span>
+    <span>{ classText }</span>
+    <span className="code__light">{'">'}</span><br/><br/>
+  </div>
