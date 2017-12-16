@@ -29,7 +29,7 @@ const ItemList = SortableContainer((props) => {
 
       } )}
 
-      { noItems && <div className="instruction instruction--light instruction--empty">child will appear here</div>}
+      { noItems && <div className="instruction instruction--light instruction--empty">the child will appear here</div>}
     </div>
   )
 })
