@@ -7,7 +7,8 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
 
   const inputProps = {
     value: item.title,
-    onChange: e => updateItem('title', applyNamingRules(e.target.value), i)
+    onChange: e => updateItem('title', applyNamingRules(e.target.value), i),
+    onBlur: e => (e.target.value === '') ? removeByKey(i) : null,
   }
 
   return (
