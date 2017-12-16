@@ -141,20 +141,29 @@ input {
   padding: var(--pad);
   display: inline-block;
   border: 2px dashed var(--light-text-color);
-
 }
 
-.logo {
+.header {
   position: absolute;
   top: 40px;
   left: 40px;
   z-index: 1;
+  display: flex;
+  align-items: center;
 }
 
 .logo__img {
   width: 140px;
   height: 33px;
   display: block;
+}
+
+.whatbem {
+  color: #FFF;
+  text-decoration: none;
+  margin-left: calc(var(--pad)*1.75);
+  font-size: var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
 }
 
 .github {
@@ -418,7 +427,6 @@ input {
 }
 
 .code {
-  white-space: pre;
   font-size: var(--font-small);
   letter-spacing: var(--font-small-letterspacing);
   outline: 0;
