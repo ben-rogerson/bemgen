@@ -1,11 +1,11 @@
 ## BEM GEN
 
 BEM GEN makes HTML & CSS templates from a list of elements.
-[View the demo](https://bemgen.benrogerson.com.au)
+[Let's make some templates >](https://bemgen.benrogerson.com.au)
 
 ## Tech notes
 
-###JS
+*JS*
 
 - React via create-react-app
 - State and stateless functional components
@@ -22,10 +22,13 @@ BEM GEN makes HTML & CSS templates from a list of elements.
 
 *TODO*
 
-- [ ] Fix modifier display in output
-- [ ] Colourise the html
+- [x] Colourise the html
+- [x] Split out JS imports
+- [x] Fix modifier display in output
+- [ ] Support two modifiers in a row
 - [ ] Focus input field on load
 - [ ] Add transitions
-- [x] Split out JS imports
-- [ ] Make bem title editable
-- [ ] Make draggable fire earlier so I can style grabberhand
+- [ ] Add a favicon
+- [ ] Make the bem name editable
+- [ ] Cursor grabberhand when dragging
+- [ ] Support for multiple BEM variants
