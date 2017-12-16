@@ -94,6 +94,7 @@ export default class extends React.Component {
       typeId: 0,
       'isDragging': false,
     }
+
     this.setState({
       listItems: this.state.listItems.concat(objs)
     })

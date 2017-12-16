@@ -2,7 +2,7 @@
   --main-bg-color: #023399;
   --main-bg-lighter-color: #274dbd;
   --main-text-color: #f9ffd3;
-  --light-text-color: #3366ff;
+  --light-text-color: #4574ff;
   --pad: 20px;
   --font-small: 23px;
   --font-small-letterspacing: .035em;
@@ -132,14 +132,23 @@ input {
   font-size: var(--font-small);
   letter-spacing: var(--font-small-letterspacing);
 }
+
 .instruction--light {
   color: var(--light-text-color);
+}
+
+.instruction--empty {
+  padding: var(--pad);
+  display: inline-block;
+  border: 2px dashed var(--light-text-color);
+
 }
 
 .logo {
   position: absolute;
   top: 40px;
   left: 40px;
+  z-index: 1;
 }
 
 .logo__img {
@@ -212,10 +221,12 @@ input {
 
 .child__input input {
   padding-right: calc(var(--pad)*1);
+  border-bottom: 2px solid transparent
 }
 
-.child:hover .child__input input:hover {
-  box-shadow: 0 0 0 2px #3459c7;
+.child:hover .child__input input:hover,
+.child__input input:focus {
+  border-bottom: 2px solid currentColor;
 }
 
 .child__option-wrap {
@@ -242,7 +253,7 @@ input {
 }
 
 .child__option + .child__option {
-  margin-left: calc(var(--pad)*.6);
+  margin-left: calc(var(--pad)*.4);
 }
 
 .button {
@@ -372,7 +383,7 @@ input {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-column-gap: 10%;
-    align-items: center;
+    align-content: center;
     width: 100%;
   }
 
@@ -411,6 +422,10 @@ input {
   font-size: var(--font-small);
   letter-spacing: var(--font-small-letterspacing);
   outline: 0;
+}
+
+.code__light {
+  color: var(--light-text-color);
 }
 
 .code > div {
