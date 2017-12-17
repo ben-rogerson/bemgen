@@ -25,12 +25,13 @@ Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 - [x] Colourise the html
 - [x] Split out JS imports
 - [x] Fix modifier display in output
-- [ ] One click copy on code blocks
 - [x] Allow modifiers on the block element
+- [x] Focus input field on load
+- [x] One click copy on code blocks
+- [ ] Support JSX className
 - [ ] Support two modifiers in a row
-- [ ] Focus input field on load
+- [ ] Support multiple BEM variants
 - [ ] Add transitions
 - [ ] Add a favicon
 - [ ] Make the bem name editable
 - [ ] Cursor grabberhand when dragging
-- [ ] Support for multiple BEM variants
