@@ -1,53 +1,89 @@
 import React from 'react'
 import ExportItem from './ExportItem'
 import { light } from './../utilities/utilities'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-const Exporter = ({ listItems, blockName }) => {
+export default class Exporter extends React.Component {
 
-  const showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true
+  constructor(props) {
+    super(props)
 
-  return (
-    <div class="exporter">
-      <div class="layout -halves">
+    this.state = {
+      copiedHtml: false,
+      copiedScss: false,
+      html: '',
+      scss: '',
+    }
+  }
 
-        <div class="layout__item">
+  componentDidMount() {
+    this.setState({
+      html: this.html.innerText,
+      scss: this.scss.innerText,
+    })
+  }
 
-          <div className="code -html" contentEditable spellcheck="false">
+  render() {
 
-            {light('<div class="')}{blockName}
+    const {
+      listItems,
+      blockName,
+    } = this.props
 
-            {showEndBlock && <span>{light('">')}<br/><br/></span>}
+    const showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true
 
-            {listItems.map( (item, index) => {
-              const exportProps = { item, listItems, blockName, index }
-              return <ExportItem type="html" {...exportProps} />
-            })}
+    return (
+      <div className="exporter">
+        <div className="layout -halves">
 
-            {light('</div>')}
+          <div className="layout__item">
+
+            <div ref={content => this.html = content} className="code -html" contentEditable spellCheck="false">
+
+              {light('<div class="')}{blockName}
+
+              {showEndBlock && <span>{light('">')}<br/><br/></span>}
+
+              {listItems.map( (item, index) => {
+                const exportProps = { item, listItems: listItems, blockName: blockName, index }
+                return <ExportItem type="html" {...exportProps} />
+              })}
+
+              {light('</div>')}
+
+            </div>
+
+            <CopyToClipboard text={this.state.html}
+              onCopy={() => this.setState({copiedHtml: true})}>
+              <button className="copy-btn">{this.state.copiedHtml ? 'copied' : 'copy'}</button>
+            </CopyToClipboard>
 
           </div>
-        </div>
 
-        <div class="layout__item">
+          <div className="layout__item">
 
-          <div className="code -scss" contentEditable spellcheck="false">
+            <div ref={content => this.scss = content} className="code -scss" contentEditable spellCheck="false">
 
-            {light('.')}{blockName}{light(' {')}<br/><br/>
+              {light('.')}{blockName}{light(' {')}<br/><br/>
 
-            {listItems.map( (item, index) => {
-              const exportProps = { item, listItems, blockName, index }
-              return <ExportItem type="scss" {...exportProps} />
-            })}
+              {listItems.map( (item, index, listItems, blockName) => {
+                const exportProps = { item, listItems, blockName, index }
+                return <ExportItem type="scss" {...exportProps} />
+              })}
 
-            {light('}')}
+              {light('}')}
+
+            </div>
+
+            <CopyToClipboard text={this.state.scss}
+              onCopy={() => this.setState({copiedScss: true})}>
+              <button className="copy-btn">{this.state.copiedScss ? 'copied' : 'copy'}</button>
+            </CopyToClipboard>
 
           </div>
 
         </div>
-
       </div>
-    </div>
-  )
+    )
+  }
 }
-
-export default Exporter

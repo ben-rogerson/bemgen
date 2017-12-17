@@ -21,7 +21,7 @@ const ExportItem = ({ type, item, listItems, blockName, index }) => {
   const props = {
     prefix: type === 'html' ? prefixHtml : prefixScss,
     classText: item.title,
-    isModifier: item.typeId == 1,
+    isModifier: item.typeId === 1,
     isNextItemModifier: isNextItemModifier,
     index: index,
   }
@@ -37,7 +37,7 @@ const ExportItem = ({ type, item, listItems, blockName, index }) => {
 export default ExportItem
 
 
-const spacing = <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+const spacingSmall = <span>&nbsp;&nbsp;</span>
 const breaking = <span><br/><br/></span>
 
 const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
@@ -45,13 +45,13 @@ const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
     {isModifier &&
       <span>{' '}{light(prefix)}{classText}
       {index === 0 && <span>{light('">')}</span>}
-      {index != 0 && <span>{light('"></div>')}</span>}
+      {index !== 0 && <span>{light('"></div>')}</span>}
       {breaking}</span>
     }
 
     {!isModifier &&
       <span>
-      {spacing}{light('<div class="' + prefix)}
+      {spacingSmall}{light('<div class="' + prefix)}
         {classText}
       {!isNextItemModifier && <span>{light('"></div>')}{breaking}</span>}
       </span>
@@ -60,10 +60,10 @@ const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
 
 const ScssItem = ({prefix, classText, isModifier, isNextItemModifier, index}) =>
   <span>
-    {isModifier && index != 0 && <span>{light('{')}{breaking}{spacing}</span>}
+    {isModifier && index !== 0 && <span>{light('{')}{breaking}{spacingSmall }</span>}
 
-    {spacing}{light('&' + prefix)}{classText + ' '}
+    {spacingSmall}{light('&' + prefix)}{classText + ' '}
     {!isNextItemModifier && <span>{light('{}')}{breaking}</span>}
 
-    {isModifier && index != 0 && <span>{spacing}{light('}')}{breaking}</span>}
+    {isModifier && index !== 0 && <span>{spacingSmall}{light('}')}{breaking}</span>}
   </span>
