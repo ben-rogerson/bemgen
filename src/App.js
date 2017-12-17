@@ -49,8 +49,8 @@ export default class extends React.Component {
       exampleName: nameExample,
       exampleChild: childExample,
 
-      blockName: 'breadcrumbs',
-      hasName: true,
+      // blockName: 'breadcrumbs',
+      // hasName: true,
     }
   }
 
@@ -64,10 +64,6 @@ export default class extends React.Component {
         action: 'Saw the Code',
       })
     }
-  }
-
-  componentDidMount() {
-    this.addBlock && this.addBlock.focus()
   }
 
   handleKeyDown = (e) => {
