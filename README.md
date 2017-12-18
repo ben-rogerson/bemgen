@@ -3,6 +3,8 @@
 Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 [Give it a whirl >](https://bemgen.benrogerson.com.au)
 
+[![BEM GEN - Give it a whirl](//i.imgur.com/V8x2YUY.png)](https://bemgen.benrogerson.com.au)
+
 ## Tech notes
 
 *JS*
