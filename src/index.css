@@ -230,13 +230,13 @@ input {
 
 .child__input input {
   padding-right: calc(var(--pad)*1);
-  border-bottom: 1px solid transparent
+  /* border-bottom: 1px solid transparent */
 }
 
-.child:hover .child__input input:hover,
+/* .child:hover .child__input input:hover,
 .child__input input:focus {
   border-bottom: 1px solid currentColor;
-}
+} */
 
 .child__option-wrap {
   display: flex;
