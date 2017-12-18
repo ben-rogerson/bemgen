@@ -7,3 +7,5 @@ export const randomItem = (array) => array[Math.floor(Math.random()*array.length
 export const bemChildTypePrefix = typeId => typeId === 0 ? '__' : '--'
 
 export const light = (lightcodestuff) => <span className="code__light">{lightcodestuff}</span>
+
+export const enterKey = 13

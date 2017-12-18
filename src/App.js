@@ -9,7 +9,7 @@ import ExportButton from './modules/ExportButton'
 import Logo from './modules/Logo'
 import BlockNamer from './modules/BlockNamer'
 import ElementList from './modules/ElementList'
-import { randomItem } from './utilities/utilities'
+import { randomItem, enterKey } from './utilities/utilities'
 
 export default class extends React.Component {
 
@@ -67,7 +67,6 @@ export default class extends React.Component {
   }
 
   handleKeyDown = (e) => {
-    const enterKey = 13
     if (e.which === enterKey && e.target.value.length > 0) this.addName(e)
   }
 

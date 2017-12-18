@@ -1,14 +1,24 @@
 import React from 'react'
 import {SortableElement} from 'react-sortable-hoc'
 import AutosizeInput from 'react-input-autosize'
-import { applyNamingRules } from './../utilities/utilities'
+import { applyNamingRules, enterKey } from './../utilities/utilities'
 
 const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isDragging }) => {
+
+  let input = []
 
   const inputProps = {
     value: item.title,
     onChange: e => updateItem('title', applyNamingRules(e.target.value), i),
+    onKeyDown: (e) => {
+      if (e.which === enterKey && e.target.value.length > 0) e.target.blur()
+    },
     onBlur: e => (e.target.value === '') ? removeByKey(i) : null,
+    ref: x => input[i] = x,
+    onMouseEnter: e => {
+      e.target.selectionStart = e.target.selectionEnd = e.target.value.length
+      input[i].focus()
+    }
   }
 
   return (

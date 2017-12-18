@@ -1,5 +1,5 @@
 import React from 'react'
-import { applyNamingRules } from './../utilities/utilities'
+import { applyNamingRules, enterKey } from './../utilities/utilities'
 import ItemList from './ItemList'
 
 export default class ElementList extends React.Component {
@@ -9,7 +9,6 @@ export default class ElementList extends React.Component {
   }
 
   handleKeyDown = (e) => {
-    const enterKey = 13
     if (e.which === enterKey && e.target.value.length > 0) {
       this.props.addListItem(e.target.value)
       e.target.value = ''
