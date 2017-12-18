@@ -9,7 +9,8 @@ import ExportButton from './modules/ExportButton'
 import Logo from './modules/Logo'
 import BlockNamer from './modules/BlockNamer'
 import ElementList from './modules/ElementList'
-import { randomItem, enterKey } from './utilities/utilities'
+import { randomItem, enterKey, isDev } from './utilities/utilities'
+import fakerState from './utilities/fakerState'
 
 export default class extends React.Component {
 
@@ -19,7 +20,7 @@ export default class extends React.Component {
 
     // Start GA tracking
     ReactGA.initialize('UA-111321688-1', {
-      debug: process.env.NODE_ENV === 'development',
+      debug: isDev,
       titleCase: false,
     })
 
@@ -41,23 +42,36 @@ export default class extends React.Component {
       'button',
     ])
 
-    this.state = {
-      blockName: '',
-      hasName: false,
-      isExport: false,
-      listItems: [],
-      exampleName: nameExample,
-      exampleChild: childExample,
+    this.state = isDev ?
+      fakerState : {
+        blockName: '',
+        hasName: false,
+        isExport: false,
+        listItems: [],
+        exampleName: nameExample,
+        exampleChild: childExample,
+        exportConfig: {
+          html: 'classic',
+          selector: 'nested',
+          element: 'classic',
+          modifier: 'classic',
+        },
+      }
 
-      // blockName: 'breadcrumbs',
-      // hasName: true,
-    }
+  }
+
+  updateConfig = (name, value) => {
+    const array = this.state.exportConfig
+    let newArray = update(array, {
+      [name]: {
+        $set: value
+      }
+    })
+    this.setState({ exportConfig: newArray })
   }
 
   toggleExport = () => {
-    this.setState({
-      isExport: !this.state.isExport
-    })
+    this.setState({ isExport: !this.state.isExport })
     if (this.state.isExport) {
       ReactGA.event({
         category: 'Exporting',
@@ -88,10 +102,7 @@ export default class extends React.Component {
       typeId: 0,
       'isDragging': false,
     }
-
-    this.setState({
-      listItems: this.state.listItems.concat(objs)
-    })
+    this.setState({ listItems: this.state.listItems.concat(objs) })
     ReactGA.event({
       category: 'Editing',
       action: 'Added a List Item',
@@ -125,10 +136,7 @@ export default class extends React.Component {
         }
       }
     })
-
-    this.setState({
-      listItems: newArray
-    })
+    this.setState({ listItems: newArray })
   }
 
   render() {
@@ -152,18 +160,33 @@ export default class extends React.Component {
       exampleName:   this.state.exampleName,
     }
 
+    const exportButtonProps = {
+      isExport:     this.state.isExport,
+      toggleExport: this.toggleExport,
+    }
+
+    const exporterProps = {
+      blockName:    this.state.blockName,
+      listItems:    this.state.listItems,
+      updateConfig: this.updateConfig,
+      config:       this.state.exportConfig,
+    }
+
     return (
       <div className="container">
 
         <Logo />
         <GithubLink />
 
-        { ! this.state.hasName && <BlockNamer {...blockNamerProps} /> }
+        { ! this.state.hasName ?
+          <BlockNamer {...blockNamerProps} /> :
+          <span>
+            <ElementList {...elementListProps} />
+            <ExportButton {...exportButtonProps} />
+          </span>
+        }
 
-        { this.state.hasName && <ElementList {...elementListProps} /> }
-        { this.state.hasName && <ExportButton isExport={this.state.isExport} toggleExport={this.toggleExport} /> }
-
-        { this.state.isExport && <Exporter listItems={this.state.listItems} blockName={this.state.blockName} /> }
+        { this.state.isExport && <Exporter {...exporterProps} /> }
 
       </div>
     )

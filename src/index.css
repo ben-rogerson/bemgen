@@ -168,10 +168,10 @@ input {
 
 .github {
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 0;
+  top: 0;
   padding: 15px;
-  z-index: 2;
+z-index: 4;
 }
 
 .github__img {
@@ -419,6 +419,7 @@ input {
   left: 0%;
   right: 0;
   bottom: 0;
+  z-index: 2;
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -443,22 +444,14 @@ input {
 
 .export-btn {
   position: fixed;
-  border-radius: 0;
   width: 100vh;
   right: 0;
   bottom: 0;
   transform: rotate(90deg) translateY(100%);
   transform-origin: bottom right;
-  z-index: 1;
-  background-color: transparent;
-  border: 0;
+  z-index: 3;
   padding: var(--pad);
   color: #FFF;
-  font-size:var(--font-small);
-  letter-spacing: var(--font-small-letterspacing);
-  font-family: inherit;
-  outline: 0;
-  cursor: pointer;
   transition: background-color .25s ease;
 }
 
@@ -467,24 +460,97 @@ input {
 }
 
 .copy-btn {
-  border-radius: 0;
-  background-color: transparent;
-  border: 0;
   padding: var(--pad) 0;
   color: #FFF;
   margin-top: var(--pad);
   position: fixed;
   bottom: 0;
-  font-size:var(--font-small);
-  letter-spacing: var(--font-small-letterspacing);
-  font-family: inherit;
-  outline: 0;
-  cursor: pointer;
   transition: background-color .25s ease;
 }
 
 .copy-btn:hover {
   background-color: var(--main-bg-color);
+}
+
+
+.config {
+  font-size: var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background: var(--main-bg-color);
+  padding: calc(var(--pad)*2) calc(var(--pad)*5) calc(var(--pad)*1.5) calc(var(--pad)*2);
+  border: 2px solid #FFF;
+}
+
+.config--is-closed {
+  visibility: hidden;
+}
+
+.config--is-open {
+
+}
+
+.config__item + .config__item {
+  margin-top: calc(var(--pad)*1.5);
+}
+
+.config__type {}
+
+.config__choices {
+  display: flex;
+  margin-top: calc(var(--pad)*.5);
+}
+
+.choice {
+  color: var(--light-text-color);
+}
+
+.choice + .choice:before {
+  content: '/';
+}
+
+.choice__input {
+  position: absolute;
+}
+
+.choice__input--is-current + label {
+  color: #FFF;
+}
+
+.choice__label {
+  cursor: pointer;
+  display: inline-block;
+  padding: calc(var(--pad)/2) calc(var(--pad)/2);
+}
+
+.config__choices .choice:first-child .choice__label {padding-left:0}
+
+.export-btn,
+.copy-btn,
+.config-btn {
+  border-radius: 0;
+  background-color: transparent;
+  border: 0;
+  font-size:var(--font-small);
+  letter-spacing: var(--font-small-letterspacing);
+  font-family: inherit;
+  outline: 0;
+  cursor: pointer;
+}
+
+.config-btn {
+  position: fixed;
+  top: calc(var(--pad)*.9);
+  right: calc(var(--pad)*4);
+}
+
+.config-btn__img {
+  width: 30px;
+  height: 30px;
 }
 
 @font-face {
