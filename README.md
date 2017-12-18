@@ -30,9 +30,11 @@ Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 - [x] Allow modifiers on the block element
 - [x] Focus input field on load
 - [x] One click copy on code blocks
-- [ ] Support multiple BEM variants
-- [ ] Support JSX className
+- [x] Support multiple BEM variants
+- [x] Code support for JSX className
+- [ ] Code support for styled components
 - [ ] Support two modifiers in a row
+- [ ] Convert CSS to styled components
 - [ ] Add transitions
 - [ ] Add a favicon
 - [ ] Make the bem name editable
