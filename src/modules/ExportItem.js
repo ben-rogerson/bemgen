@@ -2,8 +2,7 @@ import React from 'react'
 import { bemChildTypePrefix } from '../utilities/utilities'
 import { light } from './../utilities/utilities'
 
-const isElement = item => item.typeId === 0
-const isModifier = item => item.typeId === 1
+const isModifier = typeId => typeId === 1
 
 const ExportItem = props => {
 
@@ -14,15 +13,15 @@ const ExportItem = props => {
   const isNextItemModifier = nextItem.typeId == 1 || false
 
   const nonNestedPrefixStart = blockName +
-  (item.typeId === 1 && index > 0 ?
+  (isModifier(item.typeId) && index > 0 ?
     (bemChildTypePrefix(prevItem.typeId, config.element, config.modifier, true) + prevItem.title)
     : '')
 
   const prefix = type === 'html' ?
     (
       config.modifier === 'abbreviated' ?
-      (item.typeId === 1 ? '' : nonNestedPrefixStart) :
-      (item.typeId === 1 ? nonNestedPrefixStart : nonNestedPrefixStart)
+      (isModifier(item.typeId) ? '' : nonNestedPrefixStart) :
+      (isModifier(item.typeId) ? nonNestedPrefixStart : nonNestedPrefixStart)
     ) + bemChildTypePrefix(item.typeId, config.element, config.modifier, false) :
     bemChildTypePrefix(item.typeId, config.element, config.modifier, true)
 
@@ -31,8 +30,8 @@ const ExportItem = props => {
   const itemProps = {
     prefix: prefix,
     classText: item.title,
-    isModifier: item.typeId === 1,
-    isNonBlockModifier: item.typeId === 1 && index !== 0,
+    isModifier: isModifier(item.typeId),
+    isNonBlockModifier: isModifier(item.typeId) && index !== 0,
     isNextItemModifier: isNextItemModifier,
     index: index,
     config: config,

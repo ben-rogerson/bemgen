@@ -67,6 +67,10 @@ input {
   align-items: center;
 }
 
+.section {
+  width: 100%;
+}
+
 .input-large {
   position: relative;
   font-size: var(--font-large);

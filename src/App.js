@@ -180,10 +180,10 @@ export default class extends React.Component {
 
         { ! this.state.hasName ?
           <BlockNamer {...blockNamerProps} /> :
-          <span>
+          <div className="section">
             <ElementList {...elementListProps} />
             <ExportButton {...exportButtonProps} />
-          </span>
+          </div>
         }
 
         { this.state.isExport && <Exporter {...exporterProps} /> }
