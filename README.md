@@ -22,7 +22,17 @@ Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 - CSS variables
 - Grid layout
 
-## TODO
+## Roadmap
+
+- [ ] Code support for styled components
+- [ ] Support two modifiers in a row
+- [ ] Improve media queries for small devices
+- [ ] Add transitions
+- [ ] Add a favicon
+- [ ] Make the bem name editable
+- [ ] Cursor grabberhand when dragging
+
+## Done
 
 - [x] Colourise the html
 - [x] Split out JS imports
@@ -32,10 +42,3 @@ Quickly generate your HTML & SCSS in BEM syntax from a list of items.
 - [x] One click copy on code blocks
 - [x] Support multiple BEM variants
 - [x] Code support for JSX className
-- [ ] Code support for styled components
-- [ ] Support two modifiers in a row
-- [ ] Convert CSS to styled components
-- [ ] Add transitions
-- [ ] Add a favicon
-- [ ] Make the bem name editable
-- [ ] Cursor grabberhand when dragging
