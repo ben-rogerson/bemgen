@@ -47,6 +47,7 @@ export default class extends React.Component {
         blockName: '',
         hasName: false,
         isExport: false,
+        isConfigOpen: false,
         listItems: [],
         exampleName: nameExample,
         exampleChild: childExample,
@@ -139,6 +140,12 @@ export default class extends React.Component {
     this.setState({ listItems: newArray })
   }
 
+  toggleConfigOverlay = () => {
+    this.setState({
+      isConfigOpen: !this.state.isConfigOpen,
+    })
+  }
+
   render() {
     const elementListProps = {
       blockName:    this.state.blockName,
@@ -166,10 +173,12 @@ export default class extends React.Component {
     }
 
     const exporterProps = {
-      blockName:    this.state.blockName,
-      listItems:    this.state.listItems,
-      updateConfig: this.updateConfig,
-      config:       this.state.exportConfig,
+      blockName:           this.state.blockName,
+      listItems:           this.state.listItems,
+      updateConfig:        this.updateConfig,
+      config:              this.state.exportConfig,
+      isConfigOpen:        this.state.isConfigOpen,
+      toggleConfigOverlay: this.toggleConfigOverlay,
     }
 
     return (
@@ -182,7 +191,7 @@ export default class extends React.Component {
           <BlockNamer {...blockNamerProps} /> :
           <div className="section">
             <ElementList {...elementListProps} />
-            <ExportButton {...exportButtonProps} />
+            {!this.state.isConfigOpen && <ExportButton {...exportButtonProps} />}
           </div>
         }
 

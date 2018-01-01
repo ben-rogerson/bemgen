@@ -2,6 +2,7 @@ const fakerState = {
   blockName: 'breadcrumbs',
   isExport: true,
   hasName: true,
+  isConfigOpen: false,
   exampleName: 'test',
   exampleChild: 'test 2',
   exportConfig: {

@@ -15,7 +15,6 @@ export default class Exporter extends React.Component {
       copiedScss: false,
       html: '',
       scss: '',
-      isConfigOpen: false,
     }
   }
 
@@ -23,12 +22,6 @@ export default class Exporter extends React.Component {
     this.setState({
       html: this.html.innerText,
       scss: this.scss.innerText,
-    })
-  }
-
-  toggleConfig = () => {
-    this.setState({
-      isConfigOpen: !this.state.isConfigOpen,
     })
   }
 
@@ -40,7 +33,7 @@ export default class Exporter extends React.Component {
     const configProps = {
       updateConfig: this.props.updateConfig,
       config:       this.props.config,
-      isConfigOpen: this.state.isConfigOpen,
+      isConfigOpen: this.props.isConfigOpen,
     }
 
     return (
@@ -112,7 +105,11 @@ export default class Exporter extends React.Component {
 
         </div>
 
-        <ConfigButton toggleConfig={this.toggleConfig} />
+        <ConfigButton toggleConfig={this.props.toggleConfigOverlay} />
+        <div
+        className={'overlay overlay--' + (this.props.isConfigOpen ? 'is-open' : 'is-closed')}
+        onClick={this.props.toggleConfigOverlay}>
+        </div>
 
       </div>
     )

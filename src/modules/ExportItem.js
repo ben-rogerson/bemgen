@@ -10,7 +10,7 @@ const ExportItem = props => {
 
   const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
   const nextItem = typeof listItems[index+1] !== 'undefined' ? listItems[index+1] : []
-  const isNextItemModifier = nextItem.typeId == 1 || false
+  const isNextItemModifier = nextItem.typeId === 1 || false
 
   const nonNestedPrefixStart = blockName +
   (isModifier(item.typeId) && index > 0 ?
@@ -18,13 +18,12 @@ const ExportItem = props => {
     : '')
 
   const prefix = type === 'html' ?
-    (
-      config.modifier === 'abbreviated' ?
-      (isModifier(item.typeId) ? '' : nonNestedPrefixStart) :
-      (isModifier(item.typeId) ? nonNestedPrefixStart : nonNestedPrefixStart)
-    ) + bemChildTypePrefix(item.typeId, config.element, config.modifier, false) :
+    (config.modifier === 'abbreviated' && isModifier(item.typeId) ?
+      '' : nonNestedPrefixStart)
+    + bemChildTypePrefix(item.typeId, config.element, config.modifier, false) :
     bemChildTypePrefix(item.typeId, config.element, config.modifier, true)
 
+  const nestedPrefix = '&' + prefix
   const nonNestedPrefix = '.' + nonNestedPrefixStart + prefix
 
   const itemProps = {
@@ -38,7 +37,7 @@ const ExportItem = props => {
     classStyle: config.html === 'classic' ? 'class' : 'className',
     isSelectorNested: isSelectorNested,
     blockName: blockName,
-    scssPrefix: isSelectorNested ? '&' + prefix : nonNestedPrefix,
+    scssPrefix: isSelectorNested ? nestedPrefix : nonNestedPrefix,
   }
 
   return (
