@@ -1,33 +1,33 @@
 import React from 'react'
 import {SortableContainer} from 'react-sortable-hoc'
-import Item from './Item'
 import { bemChildTypePrefix } from './../utilities/utilities'
+import ItemContainer from '../containers/ItemContainer';
 
-const ItemList = SortableContainer((props) => {
+const ItemList = SortableContainer( props => {
 
-  const listItems = props.listItems
-  const noItems = listItems.length === 0
+  const { children } = props
+  const noItems = children.length === 0
 
   return (
     <div className="child-list">
-      {listItems.map( (item, index) => {
+      { children.map( (item, index) => {
 
-        const prevItem = (typeof listItems[index-1] !== 'undefined') ? listItems[index-1] : []
+        const prevItem = (typeof children[index-1] !== 'undefined') ?
+          children[index-1] : []
         const childPrefix = item.typeId === 1 && index > 0 ?
           (bemChildTypePrefix(prevItem.typeId) + prevItem.title) :
           ''
         const itemProps = {
           typeText: childPrefix + bemChildTypePrefix(item.typeId),
-          item,
-          updateItem: props.updateItem,
-          removeByKey: props.removeByKey,
+          title: item.title,
+          typeId: item.typeId,
           i: index,
           isDragging: item.isDragging,
         }
 
-        return <Item key={`child-${index}`} index={index} {...itemProps} />
+        return <ItemContainer key={`child-${index}`} index={index} {...itemProps} />
 
-      } )}
+      })}
 
       { noItems && <div className="instruction instruction--light instruction--empty">the child will appear here</div>}
     </div>

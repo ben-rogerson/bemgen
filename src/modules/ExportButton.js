@@ -1,7 +1,7 @@
 import React from 'react'
 
-const ExportButton = ({toggleExport, isExport}) =>
-  <button onClick={toggleExport} className="export-btn">
+const ExportButton = ({toggleExporter, isExport}) =>
+  <button onClick={toggleExporter} className="export-btn">
     <span className="export-btn__inner">{ isExport ? 'back' : 'view code' }</span>
   </button>
 

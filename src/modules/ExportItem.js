@@ -1,15 +1,14 @@
 import React from 'react'
-import { bemChildTypePrefix } from '../utilities/utilities'
-import { light } from './../utilities/utilities'
+import { bemChildTypePrefix, light } from '../utilities/utilities'
 
 const isModifier = typeId => typeId === 1
 
 const ExportItem = props => {
 
-  const { type, item, listItems, blockName, index, config, isSelectorNested } = props
+  const { type, item, children, blockName, index, config, isSelectorNested } = props
 
-  const prevItem = typeof listItems[index-1] !== 'undefined' ? listItems[index-1] : []
-  const nextItem = typeof listItems[index+1] !== 'undefined' ? listItems[index+1] : []
+  const prevItem = typeof children[index-1] !== 'undefined' ? children[index-1] : []
+  const nextItem = typeof children[index+1] !== 'undefined' ? children[index+1] : []
   const isNextItemModifier = nextItem.typeId === 1 || false
 
   const nonNestedPrefixStart = blockName +
@@ -53,7 +52,16 @@ export default ExportItem
 const spacing = <span>&nbsp;&nbsp;</span>
 const breaking = <span><br/><br/></span>
 
-const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index, classStyle}) => {
+const HtmlItem = props => {
+  const {
+    prefix,
+    classText,
+    isModifier,
+    isNextItemModifier,
+    index,
+    classStyle
+  } = props
+
   return (
     <span>
       {isModifier &&
@@ -73,19 +81,30 @@ const HtmlItem = ({prefix, classText, isModifier, isNextItemModifier, index, cla
   )
 }
 
-const ScssItem = ({scssPrefix, classText, isNonBlockModifier, isNextItemModifier, isSelectorNested}) =>
-  <span>
-    {isNonBlockModifier && isSelectorNested && <span>{light('{')}{breaking}{spacing}</span>}
+const ScssItem = props => {
+  const {
+    scssPrefix,
+    classText,
+    isNonBlockModifier,
+    isNextItemModifier,
+    isSelectorNested
+  } = props
 
-    {isSelectorNested ?
-      <span>{spacing}{light(scssPrefix)}</span> :
-      <span>{light(scssPrefix)}</span>
-    }
-    {classText + ' '}
+  return (
+    <span>
+      {isNonBlockModifier && isSelectorNested && <span>{light('{')}{breaking}{spacing}</span>}
 
-    {!isNextItemModifier && isSelectorNested && <span>{light('{}')}{breaking}</span>}
+      {isSelectorNested ?
+        <span>{spacing}{light(scssPrefix)}</span> :
+        <span>{light(scssPrefix)}</span>
+      }
+      {classText + ' '}
 
-    {!isSelectorNested && <span>{light('{}')}{breaking}</span>}
+      {!isNextItemModifier && isSelectorNested && <span>{light('{}')}{breaking}</span>}
 
-    {isNonBlockModifier && isSelectorNested && <span>{spacing}{light('}')}{breaking}</span>}
-  </span>
+      {!isSelectorNested && <span>{light('{}')}{breaking}</span>}
+
+      {isNonBlockModifier && isSelectorNested && <span>{spacing}{light('}')}{breaking}</span>}
+    </span>
+  )
+}

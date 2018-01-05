@@ -1,19 +1,27 @@
 import React from 'react'
 import {SortableElement} from 'react-sortable-hoc'
 import AutosizeInput from 'react-input-autosize'
-import { applyNamingRules, enterKey } from './../utilities/utilities'
+import { applyNamingRules, enterKey } from '../utilities/utilities'
 
-const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isDragging }) => {
+import {
+  removeChild,
+  toggleChildType,
+  updateChildTitle,
+} from '../actions'
+
+const Item = SortableElement( props => {
+
+  const { typeText, title, typeId, i, isDragging, dispatch } = props
 
   let input = []
 
   const inputProps = {
-    value: item.title,
-    onChange: e => updateItem('title', applyNamingRules(e.target.value), i),
-    onKeyDown: (e) => {
+    value: title,
+    onChange: e => dispatch( updateChildTitle(i, applyNamingRules(e.target.value)) ),
+    onKeyDown: e => {
       if (e.which === enterKey && e.target.value.length > 0) e.target.blur()
     },
-    onBlur: e => (e.target.value === '') ? removeByKey(i) : null,
+    onBlur: e => (e.target.value === '') ? dispatch( removeChild(i) ) : null,
     ref: x => input[i] = x,
     onMouseEnter: e => {
       e.target.selectionStart = e.target.selectionEnd = e.target.value.length
@@ -32,23 +40,23 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
 
       <div className="child__option-wrap">
 
-          <label className={"child__option -element -type" + (item.typeId === 0 ? ' -is-checked' : '')}>
+          <label className={"child__option -element -type" + (typeId === 0 ? ' -is-checked' : '')}>
             <input
               className="button"
               type="radio"
               value="0"
-              onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
+              onClick={() => dispatch( toggleChildType(i) )}
               name={'typeId'+i}
-              defaultChecked={item.typeId === 0}
+              defaultChecked={typeId === 0}
             />
           </label>
 
-          <label className={"child__option -modifier -type" + (item.typeId === 1 ? ' -is-checked' : '')}>
+          <label className={"child__option -modifier -type" + (typeId === 1 ? ' -is-checked' : '')}>
             <input
               className="button"
               type="radio"
               value="1"
-              onClick={e => updateItem('typeId', parseInt(e.target.value, 10), i)}
+              onClick={() => dispatch( toggleChildType(i) )}
               name={'typeId'+i}
             />
           </label>
@@ -56,7 +64,7 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
         <div className="child__option">
           <button
             className="button -remove"
-            onClick={() => removeByKey(i)}>
+            onClick={() => dispatch( removeChild(i) ) }>
               Remove
           </button>
         </div>

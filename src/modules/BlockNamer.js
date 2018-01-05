@@ -1,7 +1,8 @@
 import React from 'react'
-import { applyNamingRules } from './../utilities/utilities'
+import { applyNamingRules } from '../utilities/utilities'
 
 export default class BlockNamer extends React.Component {
+
   componentDidMount() {
     this.addBlock && this.addBlock.focus()
   }
@@ -27,5 +28,3 @@ export default class BlockNamer extends React.Component {
     )
   }
 }
-
-

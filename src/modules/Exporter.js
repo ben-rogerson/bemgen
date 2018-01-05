@@ -1,9 +1,9 @@
 import React from 'react'
-import ExportItem from './ExportItem'
 import Config from './Config'
-import { light } from './../utilities/utilities'
+import { light } from '../utilities/utilities'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import ConfigButton from './ConfigButton'
+import ExportItemContainer from '../containers/ExportItemContainer';
 
 export default class Exporter extends React.Component {
 
@@ -26,14 +26,16 @@ export default class Exporter extends React.Component {
   }
 
   render() {
-    const {listItems, blockName} = this.props
-    const showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true
-    const classStyle = this.props.config.html === 'classic' ? 'class' : 'className'
-    const isSelectorNested = this.props.config.selector === 'nested'
+    const { children, blockName, config, updateConfig, toggleConfigOverlay, isConfigOpen } = this.props
+    console.log(this.props)
+    const showEndBlock = typeof children[0] !== 'undefined' ? children[0].typeId === 0 : true
+    const classStyle = config.html === 'classic' ? 'class' : 'className'
+    const isSelectorNested = config.selector === 'nested'
+
     const configProps = {
-      updateConfig: this.props.updateConfig,
-      config:       this.props.config,
-      isConfigOpen: this.props.isConfigOpen,
+      updateConfig: updateConfig,
+      config:       config,
+      isConfigOpen: isConfigOpen,
     }
 
     return (
@@ -48,15 +50,9 @@ export default class Exporter extends React.Component {
 
               {showEndBlock && <span>{light('">')}<br/><br/></span>}
 
-              {listItems.map( (item, index) => {
-                const exportProps = {
-                  item,
-                  index,
-                  listItems: listItems,
-                  blockName: blockName,
-                  config: this.props.config,
-                }
-                return <ExportItem type="html" {...exportProps} />
+              {children.map( (item, index) => {
+                const exportProps = { item, index }
+                return <ExportItemContainer type="html" {...exportProps} />
               })}
 
               {light('</div>')}
@@ -78,16 +74,16 @@ export default class Exporter extends React.Component {
               {!isSelectorNested && <span>{light('}')}</span>}
               <br/><br/>
 
-              {listItems.map( (item, index) => {
+              {children.map( (item, index) => {
                 const exportProps = {
                   item,
-                  listItems,
+                  children,
                   blockName,
                   index,
-                  config: this.props.config,
+                  config: config,
                   isSelectorNested,
                 }
-                return <ExportItem type="scss" {...exportProps} />
+                return <ExportItemContainer type="scss" {...exportProps} />
               })}
 
               {isSelectorNested && <span>{light('}')}</span>}
@@ -105,10 +101,10 @@ export default class Exporter extends React.Component {
 
         </div>
 
-        <ConfigButton toggleConfig={this.props.toggleConfigOverlay} />
+        <ConfigButton toggleConfig={toggleConfigOverlay} />
         <div
-        className={'overlay overlay--' + (this.props.isConfigOpen ? 'is-open' : 'is-closed')}
-        onClick={this.props.toggleConfigOverlay}>
+        className={'overlay overlay--' + (isConfigOpen ? 'is-open' : 'is-closed')}
+        onClick={toggleConfigOverlay}>
         </div>
 
       </div>

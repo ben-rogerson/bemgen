@@ -25,8 +25,8 @@ const Config = ({ updateConfig, config, isConfigOpen }) => {
   }]
 
   return (
-    <div className={"config config" + (isConfigOpen ? '--is-open' : '--is-closed')}>
-      {configStyles.map((configItem, i) => {
+    <div className={'config config' + (isConfigOpen ? '--is-open' : '--is-closed')}>
+      { configStyles.map( (configItem, i) => {
         const configItems = configItem.items.map((name, index) => {
           const itemId = `${name}-${i}-${index}`
           return (
@@ -51,6 +51,3 @@ const Config = ({ updateConfig, config, isConfigOpen }) => {
 }
 
 export default Config
-
-
-

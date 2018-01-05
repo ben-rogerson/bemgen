@@ -1,32 +1,16 @@
 import React from 'react'
-import { applyNamingRules, enterKey } from './../utilities/utilities'
-import ItemList from './ItemList'
+import { applyNamingRules } from '../utilities/utilities'
+import ItemListContainer from '../containers/ItemListContainer';
 
 export default class ElementList extends React.Component {
 
   componentDidMount() {
-    this.addChild.focus()
-  }
-
-  handleKeyDown = (e) => {
-    if (e.which === enterKey && e.target.value.length > 0) {
-      this.props.addListItem(e.target.value)
-      e.target.value = ''
-    }
+    this.addChildInput.focus()
   }
 
   render() {
-    const itemListProps = {
-      updateItem:  this.props.updateItem,
-      removeByKey: this.props.removeByKey,
-      listItems:   this.props.listItems,
-    }
-
-    const sortableConfig = {
-      onSortEnd:   ({ oldIndex, newIndex }) => this.props.onSortEnd(oldIndex, newIndex),
-      onSortStart: ({ index }) => this.props.onSortStart(index),
-      lockAxis:    "y",
-    }
+    const { listName, exampleChild, handleKeyDown, children } = this.props
+    const itemListContainerProps = { children: children }
 
     return (
       <div className="layout layout--halves">
@@ -35,22 +19,25 @@ export default class ElementList extends React.Component {
           <div className="input-wrap input-wrap--half input-wrap--has-arrow">
             <div className="input-large">
               <input
-                ref={(input) => {this.addChild = input}}
+                ref={input => {this.addChildInput = input}}
                 type="text"
                 maxLength="15"
                 placeholder="add child name"
                 spellCheck="false"
                 onChange={e => e.target.value = applyNamingRules(e.target.value)}
-                onKeyDown={this.handleKeyDown}
+                onKeyDown={handleKeyDown}
               />
             </div>
-            <div className="instruction">add a child element without any prefix, eg: &ldquo;{this.props.exampleChild}&rdquo;</div>
+            <div className="instruction">
+              add a child element without any prefix,
+              eg: &ldquo;{exampleChild}&rdquo;
+            </div>
           </div>
         </div>
 
         <div className="layout__item">
-          <h1 className="blockname">{this.props.listName}</h1>
-          <ItemList {...itemListProps} {...sortableConfig} />
+          <h1 className="blockname">{listName}</h1>
+          <ItemListContainer {...itemListContainerProps} />
         </div>
 
       </div>
