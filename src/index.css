@@ -109,15 +109,15 @@ input {
 }
 
 /* The arrow at the right of the line */
-.input-wrap--has-arrow:after {
+.input-large em {
   display:block;
   width: var(--arrowhead-size);
   height: var(--arrowhead-size);
   border-right: 3px solid currentColor;
   border-top: 3px solid currentColor;
-  transform: translateY(50%) rotate(45deg);
+  transform: rotate(45deg);
   content: '';
-  top: calc(var(--pad)*4.65);/* TODO: Better alignment here */
+  bottom: -3px;
   right: 0;
   position: absolute;
 }

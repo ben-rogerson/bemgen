@@ -43,14 +43,19 @@ export default class ElementList extends Component {
                 onChange={e => e.target.value = applyNamingRules(e.target.value)}
                 onKeyDown={this.handleKeyDown}
               />
+              <em></em>
             </div>
             <div className="instruction">add a child element without any prefix, eg: &ldquo;{this.props.exampleChild}&rdquo;</div>
           </div>
         </div>
 
         <div className="layout__item">
-          <h1 className="blockname">{this.props.listName}</h1>
-          <ItemList {...itemListProps} {...sortableConfig} />
+
+          <div className="list-wrap">
+            <h1 className="blockname">{this.props.listName}</h1>
+            <ItemList {...itemListProps} {...sortableConfig} />
+          </div>
+
         </div>
 
       </div>
