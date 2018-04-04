@@ -3,18 +3,18 @@
   --main-bg-lighter-color: #274dbd;
   --main-text-color: #f9ffd3;
   --light-text-color: #4574ff;
-  --pad: 20px;
-  --font-small: 23px;
+  --pad: 1.25rem;
+  --font-small: 1.45rem;
   --font-small-letterspacing: .035em;
-  --font-medium: 40px;
-  --font-large: 70px;
+  --font-medium: 2.5rem;
+  --font-large: 4rem;
   --font-large-letterspacing: -.005em;
   --arrowhead-size: 10px;
 }
 
 ::selection {
   background-color: var(--light-text-color);
-  color: white;
+  color: var(--main-text-color);
 }
 
 * {
@@ -26,6 +26,34 @@
 
 input, [contenteditable=true] {
   cursor: text;
+}
+
+html {
+  font-size: 8px;
+}
+
+@media(min-width: 300px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media(min-width: 500px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media(min-width: 800px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media(min-width: 1000px) {
+  html {
+    font-size: 16px;
+  }
 }
 
 body {
@@ -73,10 +101,10 @@ input {
 
 .input-large {
   position: relative;
-  font-size: var(--font-large);
   letter-spacing: var(--font-large-letterspacing);
   padding-bottom: calc(var(--pad)*1.5);
   margin-bottom: calc(var(--pad)*1.5);
+  font-size: var(--font-large);
 }
 
 /* The line underneath the input */
@@ -149,8 +177,8 @@ input {
 
 .header {
   position: absolute;
-  top: 40px;
-  left: 40px;
+  top: calc(var(--pad) * 2);
+  left: calc(var(--pad) * 2);
   z-index: 1;
   display: flex;
   align-items: center;
@@ -372,11 +400,15 @@ input {
   padding: 10%;
 }
 
-.input-wrap {
-  width: 100%;
+.input-wrap,
+.list-wrap {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.input-wrap {
+  width: 100%;
   position: relative;
 }
 
