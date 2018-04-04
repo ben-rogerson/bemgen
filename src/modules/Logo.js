@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Logo = () =>
+const Logo = () => (
   <div className="header">
     <div className="logo">
       <img className="logo__img" src="logo.svg" alt="Bem Gen" />
@@ -12,5 +12,6 @@ const Logo = () =>
     rel="noopener noreferrer"
     >what&rsquo;s bem?</a>
   </div>
+)
 
 export default Logo

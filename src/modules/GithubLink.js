@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactGA from 'react-ga'
 
-const GithubLink = () =>
+const GithubLink = () => (
   <div>
     <ReactGA.OutboundLink
       eventLabel="Github link"
@@ -12,5 +12,6 @@ const GithubLink = () =>
       <img className="github__img" src="github.svg" alt="Check it out on github" />
     </ReactGA.OutboundLink>
   </div>
+)
 
 export default GithubLink

@@ -1,13 +1,14 @@
-import React from 'react'
-import { applyNamingRules } from './../utilities/utilities'
+import React, { Component } from 'react'
+import { applyNamingRules } from './../utilities'
 
-export default class BlockNamer extends React.Component {
+export default class BlockNamer extends Component {
+
   componentDidMount() {
     this.addBlock && this.addBlock.focus()
   }
 
   render() {
-    const {handleKeyDown, exampleName} = this.props
+    const { handleKeyDown, exampleName } = this.props
 
     return (
       <div className="input-wrap -full">

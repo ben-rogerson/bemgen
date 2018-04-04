@@ -175,7 +175,7 @@ input {
   right: 0;
   top: 0;
   padding: 15px;
-z-index: 4;
+  z-index: 4;
 }
 
 .github__img {
@@ -234,13 +234,7 @@ z-index: 4;
 
 .child__input input {
   padding-right: calc(var(--pad)*1);
-  /* border-bottom: 1px solid transparent */
 }
-
-/* .child:hover .child__input input:hover,
-.child__input input:focus {
-  border-bottom: 1px solid currentColor;
-} */
 
 .child__option-wrap {
   display: flex;
@@ -286,9 +280,11 @@ z-index: 4;
 .child__option:not(.-is-disabled):hover:after {
   color: var(--main-text-color);
 }
+
 .button:disabled {
   cursor: not-allowed;
 }
+
 .child__option.-is-disabled {
   opacity: .3;
 }
@@ -476,7 +472,6 @@ z-index: 4;
   background-color: var(--main-bg-color);
 }
 
-
 .config {
   font-size: var(--font-small);
   letter-spacing: var(--font-small-letterspacing);
@@ -485,9 +480,6 @@ z-index: 4;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
-  /* background: var(--main-bg-color); */
-  /* padding: calc(var(--pad)*2) calc(var(--pad)*5) calc(var(--pad)*1.5) calc(var(--pad)*2); */
-  /* border: 2px solid #FFF; */
 }
 
 .config--is-closed {
@@ -495,15 +487,9 @@ z-index: 4;
   pointer-events: none;
 }
 
-.config--is-open {
-
-}
-
 .config__item + .config__item {
   margin-top: calc(var(--pad)*1.5);
 }
-
-.config__type {}
 
 .config__choices {
   display: flex;

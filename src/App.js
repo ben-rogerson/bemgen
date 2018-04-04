@@ -1,18 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactGA from 'react-ga'
 import update from 'immutability-helper'
-import {arrayMove} from 'react-sortable-hoc'
-
+import { arrayMove } from 'react-sortable-hoc'
 import Exporter from './modules/Exporter'
 import GithubLink from './modules/GithubLink'
 import ExportButton from './modules/ExportButton'
 import Logo from './modules/Logo'
 import BlockNamer from './modules/BlockNamer'
 import ElementList from './modules/ElementList'
-import { randomItem, enterKey, isDev } from './utilities/utilities'
+import { randomItem, enterKey, isDev } from './utilities'
 import fakerState from './utilities/fakerState'
 
-export default class extends React.Component {
+export default class extends Component {
 
   constructor(props) {
 
@@ -26,24 +25,25 @@ export default class extends React.Component {
 
     ReactGA.pageview('/');
 
-    const nameExample = randomItem([
-      'breadcrumbs',
-      'header',
-      'footer',
-      'card',
-      'tile',
-    ])
+    const
+      nameExample = randomItem([
+        'breadcrumbs',
+        'header',
+        'footer',
+        'card',
+        'tile',
+      ]),
+      childExample = randomItem([
+        'title',
+        'wrap',
+        'list',
+        'item',
+        'button',
+      ])
 
-    const childExample = randomItem([
-      'title',
-      'wrap',
-      'list',
-      'item',
-      'button',
-    ])
-
-    this.state = isDev ?
-      fakerState : {
+    this.state = isDev
+      ? fakerState
+      : {
         blockName: '',
         hasName: false,
         isExport: false,
@@ -58,7 +58,6 @@ export default class extends React.Component {
           modifier: 'classic',
         },
       }
-
   }
 
   updateConfig = (name, value) => {
@@ -81,7 +80,7 @@ export default class extends React.Component {
     }
   }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.which === enterKey && e.target.value.length > 0) this.addName(e)
   }
 
@@ -97,11 +96,11 @@ export default class extends React.Component {
     })
   }
 
-  addListItem = (item) => {
+  addListItem = item => {
     const objs = {
       title: item,
       typeId: 0,
-      'isDragging': false,
+      isDragging: false,
     }
     this.setState({ listItems: this.state.listItems.concat(objs) })
     ReactGA.event({
@@ -111,13 +110,13 @@ export default class extends React.Component {
     })
   }
 
-  removeByKey = (itemKey) => {
+  removeByKey = itemKey => {
     const array = this.state.listItems
-    const listItems = array.filter((item, index) => index !== itemKey)
-    if (listItems) this.setState({listItems: listItems})
+    const listItems = array.filter( (item, index) => index !== itemKey)
+    if (listItems) this.setState({ listItems: listItems })
   }
 
-  onSortStart = (index) => {
+  onSortStart = index => {
     this.updateItem('isDragging', true, index)
   }
 
@@ -149,8 +148,8 @@ export default class extends React.Component {
   render() {
     const elementListProps = {
       blockName:    this.state.blockName,
-      removeByKey:  this.removeByKey,
       listName:     this.state.blockName,
+      removeByKey:  this.removeByKey,
       addListItem:  this.addListItem,
       listItems:    this.state.listItems,
       updateItem:   this.updateItem,
@@ -187,12 +186,14 @@ export default class extends React.Component {
         <Logo />
         <GithubLink />
 
-        { ! this.state.hasName ?
-          <BlockNamer {...blockNamerProps} /> :
-          <div className="section">
-            <ElementList {...elementListProps} />
-            {!this.state.isConfigOpen && <ExportButton {...exportButtonProps} />}
-          </div>
+        { ! this.state.hasName
+          ? <BlockNamer {...blockNamerProps} />
+          : (
+            <div className="section">
+              <ElementList {...elementListProps} />
+              {!this.state.isConfigOpen && <ExportButton {...exportButtonProps} />}
+            </div>
+          )
         }
 
         { this.state.isExport && <Exporter {...exporterProps} /> }

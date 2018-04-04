@@ -1,21 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { light } from './../utilities'
 import ExportItem from './ExportItem'
 import Config from './Config'
-import { light } from './../utilities/utilities'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
 import ConfigButton from './ConfigButton'
 
-export default class Exporter extends React.Component {
+export default class Exporter extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      copiedHtml: false,
-      copiedScss: false,
-      html: '',
-      scss: '',
-    }
+  state = {
+    copiedHtml: false,
+    copiedScss: false,
+    html: '',
+    scss: '',
   }
 
   componentDidMount() {
@@ -26,15 +22,16 @@ export default class Exporter extends React.Component {
   }
 
   render() {
-    const {listItems, blockName} = this.props
-    const showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true
-    const classStyle = this.props.config.html === 'classic' ? 'class' : 'className'
-    const isSelectorNested = this.props.config.selector === 'nested'
-    const configProps = {
-      updateConfig: this.props.updateConfig,
-      config:       this.props.config,
-      isConfigOpen: this.props.isConfigOpen,
-    }
+    const
+      { listItems, blockName } = this.props,
+      showEndBlock = typeof listItems[0] !== 'undefined' ? listItems[0].typeId === 0 : true,
+      classStyle = this.props.config.html === 'classic' ? 'class' : 'className',
+      isSelectorNested = this.props.config.selector === 'nested',
+      configProps = {
+        updateConfig: this.props.updateConfig,
+        config:       this.props.config,
+        isConfigOpen: this.props.isConfigOpen,
+      }
 
     return (
       <div className="exporter">
@@ -42,7 +39,7 @@ export default class Exporter extends React.Component {
 
           <div className="layout__item">
 
-            <div ref={content => this.html = content} className="code -html" contentEditable spellCheck="false">
+            <div ref={content => this.html = content} className="code -html" contentEditable suppressContentEditableWarning spellCheck="false">
 
               {light(`<div ${classStyle}="`)}{blockName}
 
@@ -56,7 +53,7 @@ export default class Exporter extends React.Component {
                   blockName: blockName,
                   config: this.props.config,
                 }
-                return <ExportItem type="html" {...exportProps} />
+                return <ExportItem key={'exhtml'+index} type="html" {...exportProps} />
               })}
 
               {light('</div>')}
@@ -72,7 +69,7 @@ export default class Exporter extends React.Component {
 
           <div className="layout__item">
 
-            <div ref={content => this.scss = content} className="code -scss" contentEditable spellCheck="false">
+            <div ref={content => this.scss = content} className="code -scss" contentEditable suppressContentEditableWarning spellCheck="false">
 
               {light('.')}{blockName}{light(' {')}
               {!isSelectorNested && <span>{light('}')}</span>}
@@ -87,7 +84,7 @@ export default class Exporter extends React.Component {
                   config: this.props.config,
                   isSelectorNested,
                 }
-                return <ExportItem type="scss" {...exportProps} />
+                return <ExportItem key={'excss'+index} type="scss" {...exportProps} />
               })}
 
               {isSelectorNested && <span>{light('}')}</span>}
@@ -107,8 +104,8 @@ export default class Exporter extends React.Component {
 
         <ConfigButton toggleConfig={this.props.toggleConfigOverlay} />
         <div
-        className={'overlay overlay--' + (this.props.isConfigOpen ? 'is-open' : 'is-closed')}
-        onClick={this.props.toggleConfigOverlay}>
+          className={'overlay overlay--' + (this.props.isConfigOpen ? 'is-open' : 'is-closed')}
+          onClick={this.props.toggleConfigOverlay}>
         </div>
 
       </div>

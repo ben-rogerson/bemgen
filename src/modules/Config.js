@@ -27,19 +27,20 @@ const Config = ({ updateConfig, config, isConfigOpen }) => {
   return (
     <div className={"config config" + (isConfigOpen ? '--is-open' : '--is-closed')}>
       {configStyles.map((configItem, i) => {
-        const configItems = configItem.items.map((name, index) => {
-          const itemId = `${name}-${i}-${index}`
+        const configItems = configItem.items.map( (name, index) => {
+          const itemId = `${name}-${i}-${index}`,
+          classes = (configItem.current === name ? ' choice__input--is-current' : '')
           return (
-            <span className="choice">
+            <span key={itemId} className="choice">
               <input type="radio" id={itemId} name="html-style" value={name}
-              className={'choice__input' + (configItem.current === name ? ' choice__input--is-current' : '')}
+              className={'choice__input' + classes}
               onClick={e => updateConfig(configItem.name, e.target.value)} />
-              <label for={itemId} className="choice__label">{name}</label>
+              <label htmlFor={itemId} className="choice__label">{name}</label>
             </span>
           )
         })
         return (
-          <div className="config__item">
+          <div key={'ch'+i} className="config__item">
             <div className="config__type">{configItem.label}</div>
             <div className="config__choices">{configItems}</div>
           </div>

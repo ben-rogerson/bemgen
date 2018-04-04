@@ -1,7 +1,7 @@
 import React from 'react'
 import {SortableElement} from 'react-sortable-hoc'
 import AutosizeInput from 'react-input-autosize'
-import { applyNamingRules, enterKey } from './../utilities/utilities'
+import { applyNamingRules, enterKey } from './../utilities'
 
 const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isDragging }) => {
 
@@ -10,7 +10,7 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
   const inputProps = {
     value: item.title,
     onChange: e => updateItem('title', applyNamingRules(e.target.value), i),
-    onKeyDown: (e) => {
+    onKeyDown: e => {
       if (e.which === enterKey && e.target.value.length > 0) e.target.blur()
     },
     onBlur: e => (e.target.value === '') ? removeByKey(i) : null,
@@ -22,7 +22,7 @@ const Item = SortableElement( ({ typeText, item, updateItem, removeByKey, i, isD
   }
 
   return (
-    <div className={"child" + (isDragging ? ' child--is-dragging' : '') }>
+    <div className={'child' + (isDragging ? ' child--is-dragging' : '') }>
 
       <div className="child__title">
         <div className="child__type">{typeText}</div>

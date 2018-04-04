@@ -1,14 +1,14 @@
-import React from 'react'
-import { applyNamingRules, enterKey } from './../utilities/utilities'
+import React, { Component } from 'react'
+import { applyNamingRules, enterKey } from './../utilities'
 import ItemList from './ItemList'
 
-export default class ElementList extends React.Component {
+export default class ElementList extends Component {
 
   componentDidMount() {
     this.addChild.focus()
   }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     if (e.which === enterKey && e.target.value.length > 0) {
       this.props.addListItem(e.target.value)
       e.target.value = ''
@@ -35,7 +35,7 @@ export default class ElementList extends React.Component {
           <div className="input-wrap input-wrap--half input-wrap--has-arrow">
             <div className="input-large">
               <input
-                ref={(input) => {this.addChild = input}}
+                ref={input => {this.addChild = input}}
                 type="text"
                 maxLength="15"
                 placeholder="add child name"
