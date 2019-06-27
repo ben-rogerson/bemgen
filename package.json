@@ -35,7 +35,7 @@
     "raf": "3.4.0",
     "react": "^16.4.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dev-utils": "^4.2.1",
+    "react-dev-utils": "^4.2.2",
     "react-dnd": "^7.1.0",
     "react-dnd-html5-backend": "^2.6.0",
     "react-dom": "^16.4.1",
